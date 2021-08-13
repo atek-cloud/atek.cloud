@@ -1,0 +1,55 @@
+{
+  "id": "example.com/api",
+  "title": "Example API",
+  "definition": {
+    "methods": {
+      "sayHello": {
+        "params": {
+          "type": "array",
+          "items": [{"type": "string", "name": "w"}]
+        },
+        "response": {
+          "type": "string"
+        }
+      },
+      "concat": {
+        "params": {
+          "type": "array",
+          "items": [{"type": "string", "name": "a"}, {"type": "string", "name": "b"}]
+        },
+        "response": {
+          "type": "string"
+        }
+      },
+      "toObject": {
+        "params": {
+          "type": "array",
+          "items": [{"type": "string", "name": "a"}, {"type": "string", "name": "b"}]
+        },
+        "response": {
+          "type": "object",
+          "required": ["a", "b"],
+          "properties": {
+            "a": {"type": "string"},
+            "b": {"type": "string"}
+          }
+        }
+      },
+      "badResponse": {
+        "response": {
+          "type": "boolean"
+        }
+      },
+      "throwsError": {
+        "response": {
+          "type": "boolean"
+        }
+      },
+      "notImplemented": {
+        "response": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
