@@ -1,0 +1,232 @@
+{
+  "id": "atek.cloud/services-api",
+  "type": "api",
+  "title": "Services Control and Management API",
+  "definition": {
+    "methods": {
+      "list": {
+        "description": "List all installed services.",
+        "response": {
+          "type": "object",
+          "properties": {
+            "services": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "inactive",
+                      "active"
+                    ]
+                  },
+                  "settings": {
+                    "$ref": "https://atek.cloud/.well-known/apdl/service.json#/definition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Fetch information about an installed service.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "inactive",
+                "active"
+              ]
+            },
+            "settings": {
+              "$ref": "https://atek.cloud/.well-known/apdl/service.json#/definition"
+            }
+          }
+        }
+      },
+      "install": {
+        "description": "Install a new service.",
+        "params": [
+          {
+            "name": "opts",
+            "type": "object",
+            "required": [
+              "sourceUrl"
+            ],
+            "properties": {
+              "sourceUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "desiredVersion": {
+                "type": "string"
+              },
+              "port": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "inactive",
+                "active"
+              ]
+            },
+            "settings": {
+              "$ref": "https://atek.cloud/.well-known/apdl/service.json#/definition"
+            }
+          }
+        }
+      },
+      "uninstall": {
+        "description": "Uninstall a service.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      "configure": {
+        "description": "Change the settings of a service.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "opts",
+            "type": "object",
+            "required": [
+              "sourceUrl"
+            ],
+            "properties": {
+              "sourceUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "desiredVersion": {
+                "type": "string"
+              },
+              "port": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      },
+      "start": {
+        "description": "Start a service process.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      "stop": {
+        "description": "Stop a service process.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      "restart": {
+        "description": "Restart a service process.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      "checkForPackageUpdates": {
+        "description": "Query the source package for software updates.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "response": {
+          "type": "object",
+          "required": [
+            "hasUpdate",
+            "installedVersion",
+            "latestVersion"
+          ],
+          "properties": {
+            "hasUpdate": {
+              "type": "boolean"
+            },
+            "installedVersion": {
+              "type": "string"
+            },
+            "latestVersion": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "updatePackage": {
+        "description": "Update the service to the highest version which matches \"desiredVersion\".",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "response": {
+          "type": "object",
+          "required": [
+            "installedVersion",
+            "oldVersion"
+          ],
+          "properties": {
+            "installedVersion": {
+              "type": "string"
+            },
+            "oldVersion": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "emitters": {
+      "subscribeStdioLog": {
+        "description": "Subscribe to the service's stdio log.",
+        "params": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "events": {
+          "data": {
+            "text": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

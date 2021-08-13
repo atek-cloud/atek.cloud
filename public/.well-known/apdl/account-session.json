@@ -1,0 +1,58 @@
+{
+  "id": "atek.cloud/account-session",
+  "type": "adb-record",
+  "title": "Account Session",
+  "description": "Internal record of a session with a user account.",
+  "templates": {
+    "table": {
+      "title": "Accounts Sessions",
+      "description": "Internal records of sessions with user accounts."
+    },
+    "record": {
+      "key": [
+        {
+          "type": "json-pointer",
+          "value": "/sessionId"
+        }
+      ],
+      "title": [
+        {
+          "type": "string",
+          "value": "Session for "
+        },
+        {
+          "type": "json-pointer",
+          "value": "/username"
+        },
+        {
+          "type": "string",
+          "value": " created at "
+        },
+        {
+          "type": "json-pointer",
+          "value": "/createdAt"
+        }
+      ]
+    }
+  },
+  "definition": {
+    "type": "object",
+    "required": [
+      "sessionId",
+      "accountId",
+      "createdAt"
+    ],
+    "properties": {
+      "sessionId": {
+        "type": "string"
+      },
+      "accountId": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    }
+  }
+}

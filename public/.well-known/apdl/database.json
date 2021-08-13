@@ -1,0 +1,99 @@
+{
+  "id": "atek.cloud/database",
+  "type": "adb-record",
+  "title": "Database",
+  "description": "Settings and cached state for a database.",
+  "templates": {
+    "table": {
+      "title": "Databases",
+      "description": "Settings and cached state for a databases."
+    },
+    "record": {
+      "key": [
+        {
+          "type": "json-pointer",
+          "value": "/dbId"
+        }
+      ],
+      "title": [
+        {
+          "type": "string",
+          "value": "Database ID: "
+        },
+        {
+          "type": "json-pointer",
+          "value": "/dbId"
+        }
+      ]
+    }
+  },
+  "definition": {
+    "type": "object",
+    "required": [
+      "dbId"
+    ],
+    "properties": {
+      "dbId": {
+        "type": "string"
+      },
+      "cachedMeta": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "writable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "network": {
+        "type": "object",
+        "properties": {
+          "access": {
+            "type": "string",
+            "enum": [
+              "private",
+              "public"
+            ]
+          }
+        }
+      },
+      "services": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "serviceId": {
+              "type": "string"
+            },
+            "alias": {
+              "type": "string"
+            },
+            "persist": {
+              "type": "boolean"
+            },
+            "presync": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "createdBy": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "string"
+          }
+        }
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    }
+  }
+}
