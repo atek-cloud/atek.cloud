@@ -5,11 +5,17 @@ const OUT_DIR = resolve('.', 'public')
 const SCHEMAS_OUT_DIR = resolve(OUT_DIR, '.well-known', 'apdl')
 const CODE_OUT_DIR = resolve(OUT_DIR, 'x')
 
-interface Schema {
+interface JsonSchema {
+  $id: string
+}
+interface APDLSchema {
   id: string
 }
-function isSchema (obj: Schema): obj is Schema {
-  return typeof obj === 'object' && typeof obj.id === 'string'
+function isJsonSchema (obj: object): obj is JsonSchema {
+  return !!obj && typeof obj === 'object' && ('$id' in obj)
+}
+function isApdlSchema (obj: object): obj is APDLSchema {
+  return !!obj && typeof obj === 'object' && ('id' in obj)
 }
 
 // main
@@ -29,23 +35,30 @@ async function writeSchemas (SCHEMAS_REPO: string) {
   console.log('✅ Cloned', SCHEMAS_REPO)
   
   console.log('💬 Writing schemas to .well-known/apdl')
-  const schemaFiles = []
+  const coreSchemaFiles = []
+  const apdlSchemaFiles = []
   for await (const file of Deno.readDir(SCHEMAS_REPO_DIR)) {
     if (file.name.endsWith('.yaml')) {
-      const schema = parse(await Deno.readTextFile(resolve(SCHEMAS_REPO_DIR, file.name))) as Schema
-      if (isSchema(schema) && schema.id.startsWith('atek.cloud/')) {
-        schemaFiles.push(schema)
+      const schema = parse(await Deno.readTextFile(resolve(SCHEMAS_REPO_DIR, file.name))) as object
+      if (isApdlSchema(schema) && schema.id.startsWith('atek.cloud/')) {
+        apdlSchemaFiles.push({name: file.name.split('.').slice(0, -1).join('.') + '.json', schema})
+      } else if (isJsonSchema(schema)) {
+        coreSchemaFiles.push({name: file.name.split('.').slice(0, -1).join('.') + '.json', schema})
       }
     } else if (file.name.endsWith('.json')) {
-      const schema = JSON.parse(await Deno.readTextFile(resolve(SCHEMAS_REPO_DIR, file.name))) as Schema
-      if (isSchema(schema) && schema.id.startsWith('atek.cloud/')) {
-        schemaFiles.push(schema)
+      const schema = JSON.parse(await Deno.readTextFile(resolve(SCHEMAS_REPO_DIR, file.name))) as object
+      if (isApdlSchema(schema) && schema.id.startsWith('atek.cloud/')) {
+        apdlSchemaFiles.push({name: file.name, schema})
+      } else if (isJsonSchema(schema)) {
+        coreSchemaFiles.push({name: file.name, schema})
       }
     }
   }
-  for (const schemaFile of schemaFiles) {
-    const name = schemaFile.id.split('/')[1]
-    await Deno.writeTextFile(resolve(SCHEMAS_OUT_DIR, `${name}.json`), JSON.stringify(schemaFile, null, 2))
+  for (const schemaFile of apdlSchemaFiles) {
+    await Deno.writeTextFile(resolve(SCHEMAS_OUT_DIR, schemaFile.name), JSON.stringify(schemaFile.schema, null, 2))
+  }
+  for (const schemaFile of coreSchemaFiles) {
+    await Deno.writeTextFile(resolve(OUT_DIR, schemaFile.name), JSON.stringify(schemaFile.schema, null, 2))
   }
   console.log('✅ Schemas written')
 }

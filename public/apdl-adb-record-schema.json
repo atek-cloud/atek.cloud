@@ -1,0 +1,24 @@
+{
+  "$id": "https://atek.cloud/apdl-adb-record-schema.json",
+  "title": "APDL ADB Record Schema",
+  "description": "Schema for Atek Protocol Description Language ADB Record documents.",
+  "type": "object",
+  "required": [
+    "id",
+    "type"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "adb-record"
+      ]
+    },
+    "definition": {
+      "type": "object"
+    }
+  }
+}
