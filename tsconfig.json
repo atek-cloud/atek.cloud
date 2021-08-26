@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "types": [
-      "https://deno.land/x/pkg@1.0.0/types.d.ts"
-    ]
-  }
-}
