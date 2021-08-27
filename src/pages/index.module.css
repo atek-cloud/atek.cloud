@@ -10,13 +10,9 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  /*background:
-    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAB9JREFUGFdjZEAF/xmR+P8ZGBgYYQJgDkgSRMA5IAEAgq4EBI6THD4AAAAASUVORK5CYII=),
-    linear-gradient(45deg, #0701fa, #5e5afb);*/
   background: 
     url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAB9JREFUGFdjZEAF/xmR+P8ZGBgYYQJgDkgSRMA5IAEAgq4EBI6THD4AAAAASUVORK5CYII=),
-    linear-gradient(45deg, #002cfb, #0114fb)
-  /* border-bottom: 1px solid var(--ifm-toc-border-color); */
+    linear-gradient(180deg, #616161, #484848);
 }
 
 @media screen and (max-width: 966px) {
