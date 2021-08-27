@@ -1,8 +1,14 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Reference
+
+:::caution
+  **Atek is still in early development.**
+  Until Atek reaches v1, users should beware of breaking changes which may not be backwards compatible.
+  Atek is available now for developers to collaborte on its development in these early stages.
+:::
 
 Let's discover **Docusaurus in less than 5 minutes**.
 
