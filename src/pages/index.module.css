@@ -10,9 +10,9 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: 
+  background:
     url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAB9JREFUGFdjZEAF/xmR+P8ZGBgYYQJgDkgSRMA5IAEAgq4EBI6THD4AAAAASUVORK5CYII=),
-    linear-gradient(180deg, #616161, #484848);
+    linear-gradient(180deg, #444, #333);
 }
 
 @media screen and (max-width: 966px) {

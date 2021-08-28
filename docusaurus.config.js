@@ -13,6 +13,9 @@ module.exports = {
   organizationName: 'atek-cloud',
   projectName: 'atek.cloud',
   themeConfig: {
+    colorMode: {
+      disableSwitch: true,
+    },
     navbar: {
       title: 'Atek Cloud',
       logo: {
