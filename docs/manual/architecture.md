@@ -7,7 +7,7 @@ sidebar_position: 2
 :::caution
   **Atek is still in early development.**
   Until Atek reaches v1, users should beware of breaking changes which may not be backwards compatible.
-  Atek is available now for developers to collaborte on its development in these early stages.
+  Atek is available now as a developer preview.
   This document will update as Atek progresses.
 :::
 
@@ -29,6 +29,8 @@ As a Web 3.0 platform Atek must:
 Atek accomplishes these goals with a microservice-like architecture. The host environment orchestrates user programs (services) and routes messages between services using API descriptions. When possible, strict schemas are used to ensure interoperation. By focusing on interoperation, we increase flexibility and enable programs to work together to help users manage their data.
 
 ## Motivations
+
+<img src="/img/diagrams/web2-vs-web3.png" />
 
 The Web 3.0's mission to decentralize all software, meaning that users run their own apps and connect via autonomous networks.
 
@@ -53,6 +55,8 @@ Atek is most comparible to [Sandstorm.io](https://sandstorm.io/), [Cloudron](htt
 
 ## Overview
 
+<img src="/img/diagrams/arch-layout.png" />
+
 The Atek Architecture is comprised of a "host environment" and multiple userland programs which provide services. The host environment in Atek is currently written in NodeJS, while the user programs are currently Deno or Node scripts.<sup>†</sup> 
 
 The host environment executes user programs (service orchestration), routes messages, hosts a Web UI, and manages configuration. It depends on a core set of user programs, most importantly the [Hypercore Protocol](https://hypercore-protocol.org) daemon and the Atek Database (ADB) service where program and user configuration is stored. The core services and Web UI may be reconfigured, creating the possibility of alternative/custom distributions of Atek.
@@ -64,6 +68,8 @@ The Atek DataBase (ADB) service uses global IDs, JSON schemas, and other metadat
 <sup>†</sup> <em>Both of these choices may evolve over time; for instance, the host environment could be rewritten in other languages for performance, and user programs will need to expand to include docker and/or wasm runtimes. Security primitives such as gvisor or firecracker are needed to sandbox the user programs.</em>
 
 ## Messaging architecture
+
+<img src="/img/diagrams/messaging-layer.png" />
 
 Atek supports two kinds of messaging transports: RPC and Proxy. These APIs are declared via the service's [manifest file](#manifests) where the API ID, transport, and other metadata are defined.
 
@@ -102,6 +108,8 @@ Services provide Proxy APIs by hosting Websocket endpoints under their assigned 
 Much of the messaging in the Atek Architecture is "internal," meaning between the user programs or between programs and the host. A multi-device host environment may send internal messages over the network, and therefore may not be strictly "local" to a machine. These messages are delivered exclusively through the host environment's API gateway - services should never communicate directly with each other.
 
 ### External messaging
+
+<img src="/img/diagrams/external-messaging.png" />
 
 With the correct permissions, a user service may open direct external network connections. The Hypercore service is an example of this. By default, user programs are not allowed to access the network directly and can only communicate by messaging the host environment's API gateway<sup>†</sup>.
 
