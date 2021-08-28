@@ -113,7 +113,10 @@ Much of the messaging in the Atek Architecture is "internal," meaning between th
 
 With the correct permissions, a user service may open direct external network connections. The Hypercore service is an example of this. By default, user programs are not allowed to access the network directly and can only communicate by messaging the host environment's API gateway<sup>†</sup>.
 
+<img src="/img/diagrams/external-message-flow.png" />
+
 In the future, peer-to-peer messaging over the "Hyperswarm" network may be coordinated by the Hypercore service. User programs could request peer connections through the Hypercore service's API, which then proxies the messages over the network on their behalf.
+
 
 HTTP or WebSocket messaging to other devices should be coordinated by the host environment. As with p2p sockets, programs must request these connections and have permissions applied on a case-by-case basis.
 
