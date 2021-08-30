@@ -40,7 +40,9 @@ We need a simple way for users to install and run Web 3.0 applications, giving t
 
 Another challenge for Web 3.0 software is that blockchains aren't ideal for all use-cases. Apps frequently need to store private user-data or run transactions (like publishing a blogpost) for no cost and at high throughput. Atek solves this by including [Hypercore Protocol](https://hypercore-protocol.org) and other non-blockchain p2p networks to store and sync user data.
 
-Because many Web 3.0 technologies are peer-to-peer, it's conceivable that Atek could run on home hardware. Home servers are a long-term goal for Atek, but, as they require consumer hardware sales, we expect Atek to run on commercial VPS providers for the foreseeable future. Atek should run on any Linux environment, whether a VM/VPS or the host OS.
+<img src="/img/diagrams/home-server.png" />
+
+Because many Web 3.0 technologies are peer-to-peer, Atek can run on home devices. The p2p protocols enable these home servers to connect through hostile NATs and firewalls, enabling applications with the connectivity of traditional cloud applications but with the privacy of a user-owned device. Running at home is not a requirement, however, and Atek should run on any Linux environment, whether a VM/VPS or the host OS.
 
 ### Relation to existing software
 
