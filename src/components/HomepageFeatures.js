@@ -29,7 +29,7 @@ const FeatureList = [
     src: '/img/reference.png',
     description: (
       <>
-        The <Link to="/docs/reference/index">Atek Reference</Link> includes information about all APIs, tools, and schemas.
+        The <Link to="/docs/reference/cli">Atek Reference</Link> includes information about all APIs, tools, and schemas.
         You should be able to find usages and details here.
       </>
     ),

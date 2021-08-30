@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
-# Manual
+# Getting started
 
 :::caution
   **Atek is still in early development.**
@@ -10,6 +10,4 @@ sidebar_position: 1
   Atek is available now as a developer preview.
 :::
 
-:::tip
-A good way to start is by reading the [Atek Architecture document](./dev/architecture).
-:::
+todo

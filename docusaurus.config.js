@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'reference/index',
+          docId: 'reference/cli',
           position: 'left',
           label: 'Reference',
         },
@@ -51,11 +51,11 @@ module.exports = {
           items: [
             {
               label: 'Manual',
-              to: '/docs/manual',
+              to: '/docs/manual/index',
             },
             {
               label: 'Reference',
-              to: '/docs/reference',
+              to: '/docs/reference/cli',
             },
           ],
         },

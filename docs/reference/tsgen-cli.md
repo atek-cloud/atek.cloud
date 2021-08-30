@@ -2,6 +2,6 @@
 sidebar_position: 6
 ---
 
-# Guide: RPC APIs
+# `tsgen` CLI
 
 TODO

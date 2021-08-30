@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # The Atek Architecture
@@ -140,7 +140,7 @@ In the most restrictive sandboxing mode, no other access to the hosting device i
 
 All services have an opaque "key" identifier which is generated upon installation. These keys should be used by all software to reference the service (e.g. in permissions or db records), as they are guaranteed not to change.
 
-Services also possess a user-friendly "ID" attribute which is selected by the user or generated from the install package. These IDs are used to make the services easier to manage for the users, but are mutable and therefore must always be mapped to the service key.
+Services also possess a user-friendly "ID" attribute which is selected by the user or generated from the install package. These IDs are used to make the services easier to manage for the users, but are mutable and therefore must always be mapped to the service key. IDs are also used as subdomains for the services (see [Proxy to subdomains](#proxy-to-subdomains)).
 
 The host environment uses a special "key" of 0 to identify itself, e.g. in permissions or other metadata, as well as the ID of "system".
 
@@ -185,15 +185,15 @@ Permissioning is still under active development. The system must provide permiss
 
 API calls to programs should include metadata which indicate the service and user which originated the call. If additional permissions are required, they can be applied by the program at runtime.
 
-### GUI environment
+### Proxy to subdomains
 
-The host environment provides a GUI environment for accessing the system. It should take advantage of registered schemas and the core services to provide the following functionality:
+The host environment proxies to the services using their IDs as subdomains. This is the recommended way to access installed services (rather than accessing them by their assigned ports). Conveniently, localhost subdomains work automatically on local browsers with no need to configure `/etc/hosts`.
 
-- Application management
-- Data management
-- User and system configuration
+### GUI environment ("main service")
 
-The GUI environment is under active development.
+The host environment's "main service" -- that is, the HTTP UI which it hosts -- is a proxy to a service, much like the subdomains. It can be changed by setting the `mainService` config value to the ID of the service.
+
+The default GUI environment in Atek is called [Lonestar](https://github.com/atek-cloud/lonestar).
 
 ## Core services
 
