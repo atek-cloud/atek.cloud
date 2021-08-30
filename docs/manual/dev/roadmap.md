@@ -37,8 +37,8 @@ We're on the road to V1. Here's what has been done and what's still todo.
   - ⬜️ &nbsp;Indexing on attributes
   - ⬜️ &nbsp;Computed views
   - ⬜️ &nbsp;Multi-writer databases
-- **UX/UI**
-  - ⬜️ &nbsp;Atek Web UI
+- **Lonestar Web UI**
+  - ⬜️ &nbsp;Application launcher
   - ⬜️ &nbsp;User management
   - ⬜️ &nbsp;Data management
   - ⬜️ &nbsp;Service management
