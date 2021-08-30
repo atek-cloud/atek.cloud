@@ -10,7 +10,6 @@ Applications must include an `atek.json` manifest file at the root of their sour
 - **description** A short description of what the application is/does.
 - **author** The author of the application.
 - **license** A short string describing how the application is licensed (e.g. "MIT").
-- **runtime** A string ID indicating how this should be executed. Must be one of "node" or "deno".
 - **exports** An array of exported API descriptions. Each entry is an object with the following properties:
   - **api** The ID of the API. This should be URL-like, e.g. `example.com/my-api`, and use a domain name owned by the creator of the API.
   - **path** The path of the HTTP endpoint where this API is exposed.
@@ -27,7 +26,6 @@ Here is an example manifest pulled from ADB:
   "description": "A Hypercore-based DB.",
   "author": "Paul Frazee <pfrazee@gmail.com>",
   "license": "MIT",
-  "runtime": "node",
   "exports": [
     {"api": "atek.cloud/adb-api", "path": "/_api/adb"},
     {"api": "atek.cloud/adb-ctrl-api", "path": "/_api/adb-ctrl"}

@@ -9,13 +9,12 @@ We're on the road to V1. Here's what has been done and what's still todo.
 *These items are only what the core team has committed to. We are [open to new proposals](https://github.com/atek-cloud/atek/discussions) as Atek is a community project.*
 
 - **Runtimes**
-  - ✅ &nbsp;Deno runtime
   - ✅ &nbsp;NodeJS runtime
   - ⬜️ &nbsp;Docker runtime
 - **Security**
   - ⬜️ &nbsp;Service permissions model
   - ⬜️ &nbsp;User permissions model
-  - ⬜️ &nbsp;Service sandbox (gvisor, firecracker, or similar)
+  - ⬜️ &nbsp;Service sandbox
 - **Services**
   - ✅ &nbsp;Installation APIs
   - ✅ &nbsp;Auto-update APIs

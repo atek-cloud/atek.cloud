@@ -28,11 +28,10 @@ Use `gen-file` to generate TS for a single dts, and `gen-folder` for a folder of
 
 Choose an `--env` value based on your application:
 
-- `node-userland` A nodejs atek application
-- `deno-userland` A deno atek application
+- `node` A nodejs atek application
 - `host` The "atek" project (you only need this if working on atek)
 
-If using `node-userland`, you will need to install `@atek-cloud/node-rpc` as the generated code depends on it.
+If using `node`, you will need to install `@atek-cloud/node-rpc` as the generated code depends on it.
 
 ## Example
 

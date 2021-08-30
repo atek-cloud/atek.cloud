@@ -49,7 +49,7 @@ Because many Web 3.0 technologies are peer-to-peer, Atek can run on home devices
 It's important to understand how Atek relates to existing software.
 
 - Atek is not a replacement for [Kubernetes](https://kubernetes.io/). Kubernetes is a service-orchestration toolset. Atek has its own service orchestrator which could conceivably be replaced by Kubernetes at some point.
-- Atek is not a replacement for [Docker](https://www.docker.com/). Docker is a container bundling and execution toolset. Atek currently uses Node and Deno as its runtimes, and should introduce Docker a future runtime.
+- Atek is not a replacement for [Docker](https://www.docker.com/). Docker is a container bundling and execution toolset. Atek currently uses Node as its runtime, and should introduce Docker a future runtime.
 - Atek is not a replacement for [Ethereum](https://ethereum.org/). Ethereum is a global crypto-currency and smart-contract runtime. Atek runs applications with non-global and/or private state (email, forums, social media). Atek is designed to interface with blockchains like Ethereum; an Ethereum wallet program may be installed and then accessed by other Atek programs.
 - Atek is not a replacement for [Nextcloud](https://nextcloud.com/). Nextcloud is a Personal Information Manager that includes files, mail, events, and so on. Atek is a platform for executing applications like Nextcloud, and while some of Atek's builtin functionality may overlap with Nextcloud, Atek is less opinionated about the software it runs and is geared primarily toward Web 3.0 applications.
 
@@ -59,7 +59,7 @@ Atek is most comparible to [Sandstorm.io](https://sandstorm.io/), [Cloudron](htt
 
 <img src="/img/diagrams/arch-layout.png" />
 
-The Atek Architecture is comprised of a "host environment" and multiple userland programs which provide services. The host environment in Atek is currently written in NodeJS, while the user programs are currently Deno or Node scripts.<sup>†</sup> 
+The Atek Architecture is comprised of a "host environment" and multiple userland programs which provide services. The host environment in Atek is currently written in NodeJS, as are the user programs.<sup>†</sup> 
 
 The host environment executes user programs (service orchestration), routes messages, hosts a Web UI, and manages configuration. It depends on a core set of user programs, most importantly the [Hypercore Protocol](https://hypercore-protocol.org) daemon and the Atek Database (ADB) service where program and user configuration is stored. The core services and Web UI may be reconfigured, creating the possibility of alternative/custom distributions of Atek.
 
@@ -67,7 +67,7 @@ Programs import and export APIs which are identified by a global ID (e.g. `examp
 
 The Atek DataBase (ADB) service uses global IDs, JSON schemas, and other metadata to describe tables. The table definitions help ensure correctness and interoperability between programs by enforcing strict conformance to the schemas on read and write.
 
-<sup>†</sup> <em>Both of these choices may evolve over time; for instance, the host environment could be rewritten in other languages for performance, and user programs will need to expand to include docker and/or wasm runtimes. Security primitives such as gvisor or firecracker are needed to sandbox the user programs.</em>
+<sup>†</sup> <em>Both of these choices may evolve over time; for instance, the host environment could be rewritten in other languages for performance, and user programs will need to expand to include docker and/or wasm runtimes. Secure sandboxing is also required.</em>
 
 ## Messaging architecture
 
@@ -119,20 +119,19 @@ With the correct permissions, a user service may open direct external network co
 
 In the future, peer-to-peer messaging over the "Hyperswarm" network may be coordinated by the Hypercore service. User programs could request peer connections through the Hypercore service's API, which then proxies the messages over the network on their behalf.
 
-
 HTTP or WebSocket messaging to other devices should be coordinated by the host environment. As with p2p sockets, programs must request these connections and have permissions applied on a case-by-case basis.
 
 Once all external messaging is routed through the host environment and core services, we will be able to audit, permission, and (when appropriate) dynamically re-route messages. Again, this is contingent on the sandbox introduction, but the system should be designed with the presence of the sandbox in mind.
 
-<sup>†</sup> <em>As the Node runtime is not currently sandboxed, these permissions are only enforced on Deno services for now.</em>
+<sup>†</sup> <em>As the Node runtime is not currently sandboxed, these permissions are not enforced yet.</em>
 
 ## The host environment
 
 ### Service execution
 
-Service execution is managed by the host environment. Programs are currently run as Node or Deno scripts. Deno scripts are sandboxed using Deno's JS isolate configuration, but as Node lacks sandboxing tools there is no perimeter enforced at this time. In the near future, Atek needs to support other runtimes (docker, possibly wasm) and introduce a consistent sandboxing solution (gvisor, firecracker).
+Service execution is managed by the host environment. Programs are currently run as Node scripts. As Node lacks sandboxing tools there is no perimeter enforced at this time. In the near future, Atek needs to support other runtimes (docker, possibly wasm) and introduce a consistent sandboxing solution.
 
-**⚠️ NOTE! Until a sandbox is introduced, Atek is not a safe environment. Deno's sandbox provides some security but Node has no sandbox, and the ideal model will use virtualization and/or OS tools to restrict program access to the host device. The security model described will not be active until this is done.**
+**⚠️ NOTE! Until a sandbox is introduced, Atek is not a safe environment. Node has no sandbox, and the ideal model will use virtualization and/or OS tools to restrict program access to the host device. The security model described will not be active until this is done.**
 
 Programs are passed a small set of environment variables and allowed access to two ports: the host environment's port and an assigned port which the program must listen on.
 
@@ -228,7 +227,7 @@ While the "no breaking changes" requirement may seem onerous, there are some sim
 
 ## User programs
 
-User programs are Node or Deno scripts which bind an HTTP server to their assigned port. Over time, Docker may be introduced to allow other runtimes.
+User programs are Node scripts which bind an HTTP server to their assigned port. Over time, Docker may be introduced to allow other runtimes.
 
 ### Manifests
 
@@ -238,7 +237,6 @@ Applications must include an `atek.json` manifest file at the root of their sour
 - **description** A short description of what the application is/does.
 - **author** The author of the application.
 - **license** A short string describing how the application is licensed (e.g. "MIT").
-- **runtime** A string ID indicating how this should be executed. Must be one of "node" or "deno".
 - **exports** An array of exported API descriptions. Each entry is an object with the following properties:
   - **api** The ID of the API. This should be URL-like, e.g. `example.com/my-api`, and use a domain name owned by the creator of the API.
   - **path** The path of the HTTP endpoint where this API is exposed.
