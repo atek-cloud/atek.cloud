@@ -79,6 +79,8 @@ Outgoing requests are sent to the host environment's "API gateway" with a descri
 
 An authorization token is passed as an environment variable; this token should be included in calls to the host environment using Bearer Authentication. Likewise, the assigned listening port as well as the host environment's port are passed as environment variables, giving the program knowledge of where to listen and where to send calls, respectively.
 
+<small>Discussions: <a href="https://github.com/atek-cloud/atek/discussions/4">#4</a>, <a href="https://github.com/atek-cloud/atek/discussions/7">#7</a></small>
+
 ### RPC transport
 
 The "RPC transport" is the primary mechanism for communicating between Atek services. It is a simple request/response flow which carries the API description, method name, and params, followed by a simple result/error response.
@@ -186,6 +188,8 @@ Permissioning is still under active development. The system must provide permiss
 
 API calls to programs should include metadata which indicate the service and user which originated the call. If additional permissions are required, they can be applied by the program at runtime.
 
+<small>Discussions: <a href="https://github.com/atek-cloud/atek/discussions/3">#3</a></small>
+
 ### Proxy to subdomains
 
 The host environment proxies to the services using their IDs as subdomains. This is the recommended way to access installed services (rather than accessing them by their assigned ports). Conveniently, localhost subdomains work automatically on local browsers with no need to configure `/etc/hosts`.
@@ -215,7 +219,9 @@ The "ADB" (Atek DataBase) service is a high-level document database designed to 
 
 ADB depends on the Hypercore service to store and replicate databases.
 
-### ADB table-definition revisions and versioning
+<small>Discussions: <a href="https://github.com/atek-cloud/atek/discussions/2">#2</a>, <a href="https://github.com/atek-cloud/atek/discussions/6">#6</a></small>
+
+#### ADB table-definition revisions and versioning
 
 ADB tables must never break backwards compatibility. This is because Atek applications are not centrally coordinated, and therefore cannot deploy global breaking changes.
 

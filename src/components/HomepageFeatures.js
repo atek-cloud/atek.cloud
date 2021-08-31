@@ -7,9 +7,10 @@ const FeatureList = [
   {
     title: 'Get Involved',
     src: '/img/get-involved.png',
+    to: 'https://github.com/atek-cloud/atek/discussions',
     description: (
       <>
-        Atek Cloud is built for community contributions. <Link to="https://github.com/atek-cloud">Join us on GitHub</Link> to get involved.
+        Atek Cloud is built by community contribution. <Link to="https://github.com/atek-cloud">Join us on GitHub</Link> to get involved.
         We have a <Link to="https://github.com/atek-cloud/atek/discussions">Discussions Board</Link> as well.
       </>
     ),
@@ -17,6 +18,7 @@ const FeatureList = [
   {
     title: 'Read the Manual',
     src: '/img/manual.png',
+    to: '/docs/manual/index',
     description: (
       <>
         The <Link to="/docs/manual/index">Atek Manual</Link> explains the architecture of Atek and how to work with it.
@@ -27,6 +29,7 @@ const FeatureList = [
   {
     title: 'Read the Reference',
     src: '/img/reference.png',
+    to: '/docs/reference/cli',
     description: (
       <>
         The <Link to="/docs/reference/cli">Atek Reference</Link> includes information about all APIs, tools, and schemas.
@@ -36,12 +39,12 @@ const FeatureList = [
   },
 ];
 
-function Feature({src, title, description}) {
+function Feature({src, to, title, description}) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className={styles.featureImgWrapper}>
+    <div className={`${clsx('col col--4')} ${styles.featureItem}`}>
+      <Link to={to} className={styles.featureImgWrapper}>
         <img className={styles.featureImg} src={src} alt={title} />
-      </div>
+      </Link>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>

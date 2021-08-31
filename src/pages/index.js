@@ -23,10 +23,15 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title="Atek - a personal cloud for Web 3.0"
+      title="Atek - a personal cloud for the Web 3.0"
       description={siteConfig.description}>
       <HomepageHeader />
       <main>
+        <div className={styles.explanation}>
+          <div>
+            Atek is a personal server that uses the Web 3.0 to connect you to the world.
+          </div>
+        </div>
         <HomepageFeatures />
       </main>
     </Layout>

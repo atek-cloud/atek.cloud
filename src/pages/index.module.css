@@ -37,3 +37,15 @@
   font-size: 2rem;
   color: #fff;
 }
+
+.explanation {
+  background-color: #fff;
+}
+
+.explanation > div {
+  max-width: var(--ifm-container-width);
+  text-align: center;
+  margin: 0 auto;
+  font-size: 1.25rem;
+  padding: 3rem 1rem;
+}

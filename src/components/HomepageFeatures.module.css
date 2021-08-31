@@ -5,6 +5,10 @@
   align-items: center;
   padding: 2rem 0 2rem;
   width: 100%;
+  background-color: var(--ifm-footer-background-color);
+}
+
+.featureItem {
 }
 
 .featureImgWrapper {

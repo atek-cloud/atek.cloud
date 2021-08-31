@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Atek Cloud',
-  tagline: 'A personal cloud for Web 3.0',
+  tagline: 'Web 3.0 for humans',
   url: 'https://atek.cloud',
   baseUrl: '/',
   onBrokenLinks: 'throw',
