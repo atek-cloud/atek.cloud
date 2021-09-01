@@ -32,6 +32,11 @@ export default function Home() {
             Atek is a personal server that uses the Web 3.0 to connect you to the world. <Link to="/docs/manual/getting-started">Get Started &rarr;</Link>
           </div>
         </div>
+        <div class={styles.notice}>
+          <div>
+            <strong>Atek is still in early development.</strong> It is available now as a developer preview.
+          </div>
+        </div>
         <HomepageFeatures />
       </main>
     </Layout>
