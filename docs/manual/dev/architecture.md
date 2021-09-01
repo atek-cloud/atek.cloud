@@ -48,12 +48,14 @@ Because many Web 3.0 technologies are peer-to-peer, Atek can run on home devices
 
 It's important to understand how Atek relates to existing software.
 
-- Atek is not a replacement for [Kubernetes](https://kubernetes.io/). Kubernetes is a service-orchestration toolset. Atek has its own service orchestrator which could conceivably be replaced by Kubernetes at some point.
 - Atek is not a replacement for [Docker](https://www.docker.com/). Docker is a container bundling and execution toolset. Atek currently uses Node as its runtime, and should introduce Docker a future runtime.
 - Atek is not a replacement for [Ethereum](https://ethereum.org/). Ethereum is a global crypto-currency and smart-contract runtime. Atek runs applications with non-global and/or private state (email, forums, social media). Atek is designed to interface with blockchains like Ethereum; an Ethereum wallet program may be installed and then accessed by other Atek programs.
-- Atek is not a replacement for [Nextcloud](https://nextcloud.com/). Nextcloud is a Personal Information Manager that includes files, mail, events, and so on. Atek is a platform for executing applications like Nextcloud, and while some of Atek's builtin functionality may overlap with Nextcloud, Atek is less opinionated about the software it runs and is geared primarily toward Web 3.0 applications.
+- Atek is similar but not a replacement for [Nextcloud](https://nextcloud.com/). Nextcloud is a Personal Information Manager that includes files, mail, events, and so on. Atek is a platform for executing applications like Nextcloud, and while some of Atek's builtin functionality may overlap with Nextcloud, Atek is less opinionated about the software it runs and is geared primarily toward Web 3.0 applications.
+- Atek is in some ways similar to [Kubernetes](https://kubernetes.io/). Kubernetes is a service-orchestration toolset. Atek has its own service orchestrator and prioritizes extreme user-friendliness and decentralization over large horizontally-scaled clusters.
 
-Atek is most comparible to [Sandstorm.io](https://sandstorm.io/), [Cloudron](https://www.cloudron.io/), [FreedomBox](https://freedombox.org/), and [YunoHost](https://yunohost.org/). These projects describe them using similar language ("self-hosted clouds") and provide similar features. Atek differs from these by its focus on Web 3.0 tech.
+Atek is most similar to [Sandstorm.io](https://sandstorm.io/), [Cloudron](https://www.cloudron.io/), [FreedomBox](https://freedombox.org/), and [YunoHost](https://yunohost.org/). These projects describe them using similar language ("self-hosted clouds") and provide similar features. Atek differs from these by its focus on Web 3.0 tech.
+
+Atek is also similar to [Textile](https://www.textile.io/) but is designed to be self-hosted and to run any services or protocols the user installs.
 
 ## Overview
 
