@@ -40,12 +40,14 @@
 
 .explanation {
   background-color: #fff;
+  box-shadow: 0 3px 7px #0001;
+  position: relative;
 }
 
 .explanation > div {
   max-width: var(--ifm-container-width);
   text-align: center;
   margin: 0 auto;
-  font-size: 1.25rem;
-  padding: 3rem 1rem;
+  font-size: 1.35rem;
+  padding: 3rem 1rem 3.15rem;
 }

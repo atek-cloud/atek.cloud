@@ -3,7 +3,7 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0 2rem;
+  padding: 3rem 0 5rem;
   width: 100%;
   background-color: var(--ifm-footer-background-color);
 }
