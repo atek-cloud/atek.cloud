@@ -6,7 +6,7 @@
  */
 
 .heroBanner {
-  padding: 4rem 0 6rem;
+  padding: 4rem 0 10rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -55,7 +55,7 @@
   text-align: center;
   margin: 0 auto;
   font-size: 1.15rem;
-  padding: 0.5rem 1rem 3rem;
+  padding: 0.5rem 1rem 4rem;
 }
 
 .notice {
@@ -65,13 +65,12 @@
 
 .notice > div {
   position: relative;
-  top: -3rem;
+  top: -7rem;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff48f;
-  color: #2f2b09;
-  border: 1px solid #6f650e;
+  margin: 0 auto -4rem;
+  background-color: #fff;
+  border: 1px solid #888;
   border-radius: 0.25rem;
   font-size: 1rem;
   padding: 1.25rem 1.5rem;
