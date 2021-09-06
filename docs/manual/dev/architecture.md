@@ -34,32 +34,27 @@ Atek accomplishes these goals with a microservice-like architecture. The host en
 
 The Web 3.0's mission to decentralize all software, meaning that users run their own apps and connect via autonomous networks.
 
-Currently there's a hole in the Web 3.0 stack: the runtime platform. While Ethereum is able to run programs on its global blockchain, there's no ideal way for users to run apps on their hardware. This means that intermediary services are cropping up to run applications which connect to blockchains. If this continues, we may end up with the same kind of silos that the Web 2.0 had.
-
-We need a simple way for users to install and run Web 3.0 applications, giving them ownership of their wallets, their data, and the programs they run. Atek is designed to solve that need.
+Currently there's a hole in the Web 3.0 stack: the runtime platform. While Ethereum is able to run programs on its global blockchain, there's no ideal way for users to run apps on their hardware. This means that intermediary services are cropping up to run applications which connect to blockchains. If this continues, the intermediaries may turn into the same kind of silos that the Web 2.0 has. Atek solves this by acting as a platform for users to install and run Web 3.0 applications, giving them ownership of their wallets, their data, and the programs they run.
 
 Another challenge for Web 3.0 software is that blockchains aren't ideal for all use-cases. Apps frequently need to store private user-data or run transactions (like publishing a blogpost) for no cost and at high throughput. Atek solves this by including [Hypercore Protocol](https://hypercore-protocol.org) and other non-blockchain p2p networks to store and sync user data.
 
+A key concept for Atek is the home server:
+
 <img src="/img/diagrams/home-server.png" />
 
-Because many Web 3.0 technologies are peer-to-peer, Atek can run on home devices. The p2p protocols enable these home servers to connect through hostile NATs and firewalls, enabling applications with the connectivity of traditional cloud applications but with the privacy of a user-owned device. Running at home is not a requirement, however, and Atek should run on any Linux environment, whether a VM/VPS or the host OS.
+The home server is a small- to medium-sized device where all data is stored. Atek runs the applications on the home server and user devices connect to the home server via Web clients. Atek's target hardware is a [Raspberry Pi](https://www.raspberrypi.org/), an affordable and easy-to-use computer.
 
-### Relation to existing software
+Historically it has been difficult to connect to a home server from outside of a residential LAN. Most solutions rely on a proxy service. Atek instead uses the [Hyperswarm](https://github.com/hyperswarm) network, which creates direct encrypted connections via a [DHT](https://en.wikipedia.org/wiki/Distributed_hash_table) with hole-punching capabilities.
 
-It's important to understand how Atek relates to existing software.
+<img src="/img/diagrams/home-server-remote-connectivity.png" />
 
-- Atek is not a replacement for [Docker](https://www.docker.com/). Docker is a container bundling and execution toolset. Atek currently uses Node as its runtime, and should introduce Docker a future runtime.
-- Atek is not a replacement for [Ethereum](https://ethereum.org/). Ethereum is a global crypto-currency and smart-contract runtime. Atek runs applications with non-global and/or private state (email, forums, social media). Atek is designed to interface with blockchains like Ethereum; an Ethereum wallet program may be installed and then accessed by other Atek programs.
-- Atek is similar but not a replacement for [Nextcloud](https://nextcloud.com/). Nextcloud is a Personal Information Manager that includes files, mail, events, and so on. Atek is a platform for executing applications like Nextcloud, and while some of Atek's builtin functionality may overlap with Nextcloud, Atek is less opinionated about the software it runs and is geared primarily toward Web 3.0 applications.
-- Atek is not a replacement for [Kubernetes](https://kubernetes.io/) (at least not yet). Kubernetes is a service-orchestration and node-provisioning toolset. Atek helps you run cloud programs but doesn't yet automatically provision clusters.
+Another common challenge for home servers is that they lack connectivity to each other. This might be solved using [federation](https://en.wikipedia.org/wiki/Federation_(information_technology)), but federated networks are rarely designed for home networks. Instead, Atek uses Web 3.0 technologies to network the home servers into a shared application space.
 
-Atek is most similar to [Sandstorm.io](https://sandstorm.io/), [Cloudron](https://www.cloudron.io/), [FreedomBox](https://freedombox.org/), and [YunoHost](https://yunohost.org/). These projects describe them using similar language ("self-hosted clouds") and provide similar features. Atek differs from these by its focus on Web 3.0 tech.
+<img src="/img/diagrams/home-server-network.png" />
 
-Atek is also similar to [Textile](https://www.textile.io/) but is designed to be self-hosted and to run any services or protocols the user installs.
+The Web 3.0 applications enable social connectivity while the home servers provide data isolation and user-operated compute. The Atek ecosystem must develop an easy-to-understand Web 3.0 stack so developers can use these new technologies without too much difficulty.
 
 ## Overview
-
-<img src="/img/diagrams/arch-layout.png" />
 
 The Atek Architecture is comprised of a "host environment" and multiple userland programs which provide services. The host environment in Atek is currently written in NodeJS, as are the user programs.<sup>†</sup> 
 
@@ -105,13 +100,13 @@ Services provide RPC APIs by hosting HTTP POST endpoints under their assigned po
 
 ### Proxy transport
 
-The "Proxy transport" is provided for services with pre-existing wire protocols which are difficult to port to Atek's RPC transport. This is common for wallets and protocol daemons.
+The "Proxy transport" is provided for services with pre-existing wire protocols which are difficult to port to Atek's JSON-RPC transport. This is common for wallets and protocol daemons.
 
 Services provide Proxy APIs by hosting Websocket endpoints under their assigned port. An exports field in their [manifest file](#manifests) maps the ID and related metadata to the HTTP path of the endpoint.
 
 ### Internal messaging
 
-Much of the messaging in the Atek Architecture is "internal," meaning between the user programs or between programs and the host. A multi-device host environment may send internal messages over the network, and therefore may not be strictly "local" to a machine. These messages are delivered exclusively through the host environment's API gateway - services should never communicate directly with each other.
+Much of the messaging in the Atek Architecture is "internal," meaning between the user programs or between programs and the host. These messages are delivered exclusively through the host environment's API gateway - services should never communicate directly with each other.
 
 ### External messaging
 
@@ -135,11 +130,11 @@ Once all external messaging is routed through the host environment and core serv
 
 Service execution is managed by the host environment. Programs are currently run as Node scripts. As Node lacks sandboxing tools there is no perimeter enforced at this time. In the near future, Atek needs to support other runtimes (docker, possibly wasm) and introduce a consistent sandboxing solution.
 
-**⚠️ NOTE! Until a sandbox is introduced, Atek is not a safe environment. Node has no sandbox, and the ideal model will use virtualization and/or OS tools to restrict program access to the host device. The security model described will not be active until this is done.**
+**⚠️ NOTE! Until a sandbox is introduced, Atek is not a safe environment. Node has no sandbox, and the ideal model will use containers or VMs to restrict program access to the host device. The security model described will not apply until this is done.**
 
 Programs are passed a small set of environment variables and allowed access to two ports: the host environment's port and an assigned port which the program must listen on.
 
-In the most restrictive sandboxing mode, no other access to the hosting device is permitted; all external access is accomplished through RPC calls to the host environment. More relaxed sandboxes will be required for wallets and protocol daemons, including more access to network ports and the local filesystem, but these should be the exception: for instance, applications should seek to store data in ADB or other similar data stores as these can be managed by Atek.
+In the most restrictive sandboxing mode, no other access to the hosting device is permitted; all external access is accomplished through RPC calls to the host environment. More relaxed sandboxes will be required for wallets and protocol daemons, including more access to network ports and the local filesystem, but these should be the exception: for instance, applications should seek to store data in Atek DB or other similar data stores as these can be managed by Atek.
 
 ### Service IDs and keys
 
@@ -163,8 +158,8 @@ Git repositories may indicate their versions using tags. The tags must be semant
 
 Atek stores state in two locations:
 
-1. A config file (`~/.atek/config.json` by default)
-2. The "Server Database," an ADB database.
+- A config file (`~/.atek/config.json` by default)
+- The "Server Database," an Atek DB database.
 
 The config file includes minimal configuration required to bootstrap the host program. The server database includes all other state, including installed services, user accounts, permissions, etc.
 
@@ -172,15 +167,15 @@ The config file includes minimal configuration required to bootstrap the host pr
 
 Atek starts itself with the following steps:
 
-- Loading a config file.
-- Start the host HTTP server, which includes the API gateway.
-- Load "core services." These are hardcoded (currently the Hypercore daemon and ADB) but may be overridden in the config file.
-- Read additional config from the Server Database, an ADB database. If this does not yet exist, it will be created.
-- Load any user-installed services.
+1. Load the config file.
+2. Start the host HTTP server, which includes the API gateway.
+3. Load "core services." These are hardcoded (currently the Hypercore daemon, Atek DB, and Lonestar Web UI) but may be overridden in the config file.
+4. Read additional config from the Server Database in Atek DB. If the Server Database does not yet exist, it will be created.
+5. Load any user-installed services.
 
 ### User accounts
 
-This system is still under active development. Atek must be a multi-user environment, as multiple users may share a hosting server (e.g. in home deployments). User IDs are automatically generated and opaque. Users may have the "super user" flag set to get special privileges over the system, including the ability to view all logs, install/configure system-wide programs, and read/write all user data.
+This system is still under active development. Atek must be a multi-user environment, as multiple users may share a hosting server (e.g. in home deployments). User ID-keys are automatically generated and opaque. Users may have the "super user" flag set to get special privileges over the system, including the ability to view all logs, install/configure system-wide programs, and read/write all user data.
 
 Programs will likely need to be installed for individual users or for the entire system. As a consequence, a program may be installed multiple times (for each user) or once (for all users). Programs may be designed for a single user or multiple user installation, as is appropriate for the program. (For instance, the Hypercore service must be a multi-user program, while a personal website might be a single-user program.)
 

@@ -18,6 +18,14 @@ npm install -g @atek-cloud/atek
 
 From there, just run `atek` to start it. Once it has started, you can access it at `http://localhost`. Atek will run on port 80 by default. You can change the port by [editing your config file](/docs/reference/config) or passing the [-p flag](/docs/reference/cli).
 
+Next, you might try installing the [hello world app](https://github.com/atek-cloud/hello-world-node). You can do thiis from the atek frontend or by calling:
+
+```
+atek install https://github.com/atek-cloud/hello-world-node
+```
+
+You should be able to open it at `http://hello-world-node.localhost`.
+
 If you run into any problems, please [file an issue](https://github.com/atek-cloud/atek/issues).
 
 References:

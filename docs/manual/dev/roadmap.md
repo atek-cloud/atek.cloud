@@ -35,12 +35,12 @@ We're on the road to V1. Here's what has been done and what's still todo.
   - ⬜️ &nbsp;Complex queries (filter or sort by multiple conditions)
   - ⬜️ &nbsp;Indexing on attributes
   - ⬜️ &nbsp;Computed views
-  - ⬜️ &nbsp;Multi-writer databases
 - **Lonestar Web UI**
   - ⬜️ &nbsp;Application launcher
   - ⬜️ &nbsp;User management
   - ⬜️ &nbsp;Data management
   - ⬜️ &nbsp;Service management
-- **Protocols**
-  - ✅ &nbsp;Hypercore Protocol
-  - ⬜️ &nbsp;Ethereum
+- **Platforms**
+  - ⬜️ &nbsp;iOS app
+  - ⬜️ &nbsp;Android app
+  - ⬜️ &nbsp;Desktop app or browser extension
