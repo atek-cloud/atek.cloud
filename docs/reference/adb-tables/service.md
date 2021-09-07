@@ -1,7 +1,3 @@
----
-sidebar_position: 11
----
-
 # Service
 
 `atek.cloud/service`
@@ -9,21 +5,8 @@ sidebar_position: 11
 Service installed to a host environment.
 
 ```typescript
-/*
-id: atek.cloud/service
-type: adb-record
-title: Service
-description: Service installed to a host environment.
-templates:
-  table:
-    title: Services
-    description: Services installed to the host environment.
-  record:
-    title: "Service \"{{/id}}\", source: {{/sourceUrl}}"
-*/
-
-export default interface Service {
-  id: string // pattern: "^([a-zA-Z][a-zA-Z0-9-]{1,62}[a-zA-Z0-9])$"
+interface Service {
+  id: string
   port: number
   sourceUrl: URL
   desiredVersion?: string
@@ -34,10 +17,10 @@ export default interface Service {
   }
   manifest?: ServiceManifest
   config?: ServiceConfig
-  installedBy: string //  pattern: "^([a-zA-Z][a-zA-Z0-9-]{1,62}[a-zA-Z0-9])$"
+  installedBy: string
 }
 
-export interface ServiceManifest {
+interface ServiceManifest {
   name?: string
   description?: string
   author?: string
@@ -45,24 +28,31 @@ export interface ServiceManifest {
   exports?: ApiExportDesc[]
 }
 
-export interface ApiExportDesc {
+interface ApiExportDesc {
   api: string
   path?: string
   transport?: ApiTransportEnum
 }
 
-export interface ServiceConfig {
+interface ServiceConfig {
   [key: string]: string
 }
 
-export enum SourceTypeEnum {
+enum SourceTypeEnum {
   file = 'file',
   git = 'git'
 }
 
-export enum ApiTransportEnum {
+enum ApiTransportEnum {
   rpc = 'rpc',
   proxy = 'proxy'
 }
+```
 
+```
+npm i @atek-cloud/adb-tables
+```
+
+```typescript
+import { services } from '@atek-cloud/adb-tables
 ```

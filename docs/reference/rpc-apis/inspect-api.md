@@ -1,23 +1,16 @@
----
-sidebar_position: 9
----
-
 # Atek Inspection API
 
 `atek.cloud/inspect-api`
 
 General debugging information for an endpoint
 
-```typescript
-/*
-id: atek.cloud/inspect-api
-type: api
-title: Atek Inspection API
-description: General debugging information for an endpoint
-*/
+```
+npm i @atek-cloud/inspect-api
+```
 
-export default interface InspectApi {
-  isReady (): Promise<boolean>
-  getConfig (): Promise<object>
-}
+```typescript
+import inspect from '@atek-cloud/inspect-api'
+
+await inspect.isReady() // => boolean
+await inspect.getConfig() // => object
 ```

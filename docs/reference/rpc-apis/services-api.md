@@ -1,23 +1,21 @@
----
-sidebar_position: 12
----
-
 # Services Control and Management API
 
 `atek.cloud/services-api`
 
-
+```
+npm i @atek-cloud/services-api
+```
 
 ```typescript
-/*
-id: atek.cloud/services-api
-type: api
-title: Services Control and Management API
-*/
+import services from '@atek-cloud/services-api'
 
-// import ServiceRecord from './service' TODO add support for imports
+await services.list() // => {services: [...]}
+```
 
-export default interface ServicesApi {
+The API:
+
+```typescript
+interface ServicesApi {
   // List all installed services.
   list (): Promise<{services: ServiceInfo[]}>
 
@@ -47,60 +45,5 @@ export default interface ServicesApi {
 
   // Update the service to the highest version which matches "desiredVersion".
   updatePackage (id: string): Promise<{installedVersion: string, oldVersion: string}>
-
-  // Subscribe to the service's stdio log.
-  subscribe (id: string): LogSubscription
-}
-
-export interface LogSubscription {
-  emit(name: 'data', evt: {text: string})
-}
-
-export interface ServiceInfo {
-  status: StatusEnum
-  settings: ServiceRecord
-}
-
-export enum StatusEnum {
-  inactive = 'inactive',
-  active = 'active'
-}
-
-export interface InstallOpts {
-  sourceUrl: URL
-  id?: string
-  desiredVersion?: string
-  port?: number
-}
-
-export interface ConfigureOpts {
-  id?: string
-  sourceUrl?: URL
-  desiredVersion?: string
-  port?: number
-}
-
-export interface ServiceRecord {
-  id: string // pattern: "^([a-zA-Z][a-zA-Z0-9-]{1,62}[a-zA-Z0-9])$"
-  port: number
-  sourceUrl: URL
-  desiredVersion?: string
-  package: {
-    sourceType: SourceTypeEnum
-    installedVersion?: string
-    title?: string
-  }
-  manifest?: {
-    name?: string
-    description?: string
-    author?: string
-    license?: string
-  }
-  installedBy: string //  pattern: "^([a-zA-Z][a-zA-Z0-9-]{1,62}[a-zA-Z0-9])$"
-}
-
-export enum SourceTypeEnum {
-  file = 'file',
-  git = 'git'
 }
 ```

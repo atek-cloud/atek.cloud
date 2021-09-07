@@ -25,14 +25,10 @@ Commands:
    atek start {id} - Start a service
    atek stop {id} - Stop a service
    atek restart {id} - Restart a service
-   atek tsgen gen-file - Generate typescript from a d.ts file
-   atek tsgen gen-folder - Generate typescript from a folder of d.ts files
    atek repl - Connect a repl to the atek instance
 ```
 
 All commands support `-h/--help` and should be easy to understand with a few exceptions.
-
-To understand the `tsgen` commands, see [the tsgen reference](/docs/reference/tsgen-cli).
 
 The `atek cfg` command allows you to change settings and set environment variables which will be passed to a service. To see a service's current config, run:
 

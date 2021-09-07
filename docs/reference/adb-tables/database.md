@@ -1,7 +1,3 @@
----
-sidebar_position: 7
----
-
 # Database
 
 `atek.cloud/database`
@@ -9,21 +5,7 @@ sidebar_position: 7
 Settings and cached state for a database.
 
 ```typescript
-/*
-id: atek.cloud/database
-type: adb-record
-title: Database
-description: Settings and cached state for a database.
-templates:
-  table:
-    title: Databases
-    description: Settings and cached state for databases.
-  record:
-    key: "{{/dbId}}"
-    title: "Database ID: {{/dbId}}"
-*/
-
-export default interface Database {
+interface Database {
   dbId: string
   cachedMeta?: {
     displayName?: string
@@ -40,15 +22,23 @@ export default interface Database {
   createdAt: Date
 }
 
-export interface ServiceConfig {
+interface ServiceConfig {
   serviceKey: string
   alias?: string
   persist?: boolean
   presync?: boolean
 }
 
-export enum NetworkAccess {
+enum NetworkAccess {
   private = 'private',
   public = 'public'
 }
+```
+
+```
+npm i @atek-cloud/adb-tables
+```
+
+```typescript
+import { databases } from '@atek-cloud/adb-tables
 ```

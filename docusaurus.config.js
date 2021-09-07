@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Atek Cloud',
-  tagline: 'Web 3.0 for humans',
+  tagline: 'An open source peer-to-peer Home Cloud',
   url: 'https://atek.cloud',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -65,6 +65,10 @@ module.exports = {
             {
               label: 'Discussions',
               href: 'https://github.com/atek-cloud/atek/discussions',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discord.com/channels/883086455092674602/883086456464224356'
             }
           ],
         },
