@@ -26,7 +26,7 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title="Atek - a personal cloud for the Web 3.0"
+      title="Atek - An open source peer-to-peer Home Cloud"
       description={siteConfig.description}>
       <HomepageHeader />
       <main>
