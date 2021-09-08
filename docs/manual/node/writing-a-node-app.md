@@ -109,5 +109,5 @@ This information will be used by Atek in various UIs.
 Here's where to go next:
 
 - [**Running tests**](/docs/manual/node/running-tests). How to setup a test environment for your app.
-- [**Calling APIs**](/docs/manual/apis/calling-apis). How to call APIs exported by Atek and other apps.
-- [**Introduction to ADB**](/docs/manual/adb/index). How to use Atek's default database, ADB.
+- [**Introduction to Atek RPC**](/docs/manual/rpc/intro). How to call APIs exported by Atek and other apps.
+- [**Introduction to ADB**](/docs/manual/adb/intro). How to use Atek's default database, ADB.
