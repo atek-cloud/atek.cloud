@@ -83,6 +83,10 @@ module.exports = {
               label: 'GitHub',
               href: 'https://github.com/atek-cloud',
             },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/atek_cloud'
+            }
           ],
         },
       ],

@@ -28,6 +28,7 @@ Atek is available as a developer preview. I'm following the "release early and o
 - [GitHub org](https://github.com/atek-cloud)
 - [Discussions board](https://github.com/atek-cloud/atek/discussions)
 - [Discord server](https://discord.com/channels/883086455092674602/883086456464224356)
+- [Twitter account (@atek_cloud)](https://twitter.com/atek_cloud)
 
 The [Architecture Document](/docs/manual/dev/architecture) is a very good overview of how Atek works.
 
@@ -94,6 +95,7 @@ Atek is MIT-licensed FOSS and very open to community contributions. Links:
 - [GitHub org](https://github.com/atek-cloud)
 - [Discussions board](https://github.com/atek-cloud/atek/discussions)
 - [Discord server](https://discord.com/channels/883086455092674602/883086456464224356)
+- [Twitter account (@atek_cloud)](https://twitter.com/atek_cloud)
 
 As I said before, the [Architecture Document](/docs/manual/dev/architecture) is a very good overview of how Atek works. You can also [reach me on Twitter](https://twitter.com/pfrazee).
 
