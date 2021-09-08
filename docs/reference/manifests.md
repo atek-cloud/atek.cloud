@@ -28,7 +28,6 @@ Here is an example manifest pulled from ADB:
   "license": "MIT",
   "exports": [
     {"api": "atek.cloud/adb-api", "path": "/_api/adb"},
-    {"api": "atek.cloud/adb-ctrl-api", "path": "/_api/adb-ctrl"}
   ]
 }
 ```
