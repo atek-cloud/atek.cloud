@@ -20,6 +20,8 @@ Today I'm really happy to announce the Atek project, an open source peer-to-peer
 
 Atek uses [Hypercore Protocol](https://hypercore-protocol.org) as its main networking and data layer, but is designed to flexibly add services so that other technologies ([IPFS](https://ipfs.io), [SSB](https://scuttlebutt.nz), [Ethereum](https://ethereum.org/), etc) can be added.
 
+We're aiming for Raspberry Pis as a target device, but Atek can run on most laptops or desktops.
+
 ## Developer preview
 
 Atek is available as a developer preview. I'm following the "release early and often" philosophy so that other developers can get involved. Links:
@@ -77,7 +79,7 @@ The next challenge was resource constraints. Beaker was originally meant to acce
 
 ### What is the app runtime?
 
-Atek currently runs NodeJS applications. I had originally planned to use Deno, but ran into some frustrations and deferred including it.
+Atek currently runs NodeJS applications.
 
 I believe the next step will be to add Docker as a runtime. Again, simple and familiar tools are a benefit, and given Atek's goal to run a variety of protocols, it seems necessary to use containers. That said, I'm locked in debate with a friend who sees Docker as unnecessary overhead (yo dawg, I heard you like entire OS distros) so I'm open to better ideas.
 
@@ -85,7 +87,7 @@ Another near-term concern is answering security sandboxing. I'm still doing my r
 
 ### Where does the name come from?
 
-Atek stands for "Austin Texas," where I live. Yeehaw yall.
+Atek stands for "Austin Texas," where I live. Yeehaw y'all.
 
 ## Getting involved
 
