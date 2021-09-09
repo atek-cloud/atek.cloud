@@ -37,3 +37,12 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 .block {
   display: block;
 }
+
+.highlighted-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--ifm-color-primary-light);
+  border-radius: .25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}

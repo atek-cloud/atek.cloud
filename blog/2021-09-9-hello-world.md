@@ -55,7 +55,7 @@ New tech such as [Hypercore Protocol](https://hypercore-protocol.org), [IPFS](ht
 
 ### Small core, open ecosystem
 
-Atek uses a small core server that runs programs (services) and routes API-calls between them. All other functionality, including the protocols, primary data store, default frontend, and actual apps are user programs. A set of "core services" are set in the config file to boostrap the server, and then the rest are loaded from records in the data store.
+Atek uses a small core server that runs programs (services) and routes API-calls between them. All other functionality, including the protocols, primary data store, default frontend, and actual apps are user programs. A set of "core services" are set in the config file to bootstrap the server, and then the rest are loaded from records in the data store.
 
 This "everything in userland" approach is designed to maximize flexibility for users to choose protocols and applications. Atek will ship with an opinionated core, but because that core is established by the config file, it's trivial to create alternative distros. It's also possible to install all kinds of new services in the default Atek, so if you prefer IPFS or SSB to Hypercore, write an Atek app for those protocol daemons and have at it! ([You can see what Hypercore's daemon app looks like here.](https://github.com/atek-cloud/hyper-daemon))
 
