@@ -40,7 +40,7 @@ export default function Home() {
             <p>
               Check out the <Link to="/docs/manual/dev/architecture">Architecture Document</Link> and
               the <Link to="/blog/hello-world">Introductory Blogpost</Link> to learn more about what Atek is about.
-              We have a <Link to="https://discord.com/channels/883086455092674602/883086456464224356">Discord channel</Link> and a <Link to="https://github.com/atek-cloud/atek/discussions">GitHub discussion board</Link> where you can get involved.
+              We have a <Link to="https://discord.gg/UUCVrFYksv">Discord channel</Link> and a <Link to="https://github.com/atek-cloud/atek/discussions">GitHub discussion board</Link> where you can get involved.
             </p>
           </div>
         </div>
