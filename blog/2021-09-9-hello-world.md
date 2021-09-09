@@ -12,7 +12,7 @@ tags: [announcements]
 
 ![Hello, world](/img/blog/hello-world-lg.png)
 
-Today I'm really happy to announce the Atek project, an open source peer-to-peer Home Cloud. (Pronounced "eɪ-Tek," like the 'a' in baseball.)
+Today I'm really happy to announce the Atek project, an open source peer-to-peer Home Cloud. (Pronounced "eɪ-Tek," rhymes with "hey tech.")
 
 ![Home PI](/img/diagrams/home-server.png)
 
