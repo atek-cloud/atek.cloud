@@ -13,6 +13,8 @@ module.exports = {
   organizationName: 'atek-cloud',
   projectName: 'atek.cloud',
   themeConfig: {
+    image: 'img/logo-with-text.png',
+    metadatas: [{name: 'twitter:card', content: 'summary_large_image'}],
     colorMode: {
       disableSwitch: true,
     },
