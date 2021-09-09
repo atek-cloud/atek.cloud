@@ -24,6 +24,14 @@ open http://localhost
 
 Atek will run on port 80 by default. You can change the port by [editing your config file](/docs/reference/config) or passing the [-p flag](/docs/reference/cli).
 
+:::note
+If you get a permissions error around accessing port 80, run the following command:
+```
+sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
+```
+That will enable nodejs to access port 80 without requiring super-user priviliges.
+:::
+
 Next, you might try installing the [hello world app](https://github.com/atek-cloud/hello-world-node). You can do thiis from the atek frontend or by calling:
 
 ```
