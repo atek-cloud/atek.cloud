@@ -10,7 +10,7 @@ sidebar_position: 2
   Atek is available now as a developer preview.
 :::
 
-You can install Atek using NPM. You will need to install NodeJS 14+.
+You can install Atek using NPM. You will need to install NodeJS 16+.
 
 ```
 npm install -g @atek-cloud/atek
