@@ -17,7 +17,13 @@
 
 @media screen and (max-width: 966px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 6rem 2rem 14rem;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .heroBanner {
+    padding-bottom: 12rem;
   }
 }
 
@@ -33,13 +39,31 @@
   color: #fff;
 }
 
+@media screen and (max-width: 420px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+}
+
 .heroSubtitle {
   font-size: 2rem;
   color: #fff;
   margin-bottom: 2.5rem;
 }
 
-.buttons {
+@media screen and (max-width: 420px) {
+  .heroSubtitle {
+    font-size: 1.5rem;
+  }
+}
+
+.heroButtons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +91,7 @@
   position: relative;
   top: -7rem;
   width: 100%;
-  max-width: 600px;
+  max-width: min(600px, 90vw);
   margin: 0 auto -4rem;
   background-color: #fff;
   border: 1px solid #888;
