@@ -107,7 +107,7 @@
 
 .tweets {
   max-width: min(600px, 90vw);
-  margin: 4rem auto;
+  margin: 3rem auto 4rem;
   border: 1px solid #888;
   border-radius: 0.25rem;
   overflow: hidden;
