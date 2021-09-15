@@ -11,7 +11,7 @@ function Tweet({tweet}) {
   let text = tweet.full_text
   if (tweet.entities?.media?.length) {
     for (let item of tweet.entities.media) {
-      text = text.replaceAll(item.url, '')
+      text = text.replace(item.url, '')
     }
   }
   let textParsed = text.split(' ').map(seg => {
