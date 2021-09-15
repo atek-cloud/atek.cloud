@@ -1,0 +1,48 @@
+.tweets {
+}
+
+.tweet {
+  padding: 1.2rem 1.4rem 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.tweet:last-child {
+  border-bottom: 0;
+}
+
+.tweetHeader {
+  margin-bottom: 0.5rem;
+}
+
+.tweetHeader a:first-child {
+  color: #333;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.tweetHeader a:nth-child(2) {
+  color: #666;
+  margin-right: 0.5rem;
+}
+
+.tweetHeader a:nth-child(3) {
+  color: #666;
+  margin-left: 0.5rem;
+}
+
+.tweetBody {
+  line-height: 1.3;
+}
+
+.tweetMedia {
+  margin-top: 0.5rem;
+}
+
+.tweetMedia img {
+  border-radius: 0.25rem;
+}
+
+.more a {
+  display: block;
+  padding: 1.4rem;
+}

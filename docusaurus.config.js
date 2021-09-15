@@ -1,5 +1,6 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const Twitter = require('twitter')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -119,4 +120,38 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    function getTweets (context, options) {
+      return {
+        name: 'get-tweets',
+        async loadContent () {
+          if (!process.env.TWITTER_CONSUMER_KEY || !process.env.TWITTER_CONSUMER_SECRET || !process.env.TWITTER_BEARER_TOKEN) {
+            console.log('Skipping tweet load: env params not set')
+            return
+          }
+          var client = new Twitter({
+            consumer_key: process.env.TWITTER_CONSUMER_KEY,
+            consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+            bearer_token: process.env.TWITTER_BEARER_TOKEN
+          });
+          return await new Promise((resolve, reject) => {
+            var params = {screen_name: 'atek_cloud', tweet_mode: 'extended'};
+            console.log('Fetching tweets')
+            client.get('statuses/user_timeline', params, function(error, tweets, response) {
+              if (error) {
+                console.error('Failed to fetch tweets', error)
+              } else {
+                console.log('Fetched tweets successfully')
+              }
+              if (error) reject(error)
+              else resolve({tweets})
+            })
+          })
+        },
+        async contentLoaded ({content, actions}) {
+          actions.setGlobalData({tweets: content.tweets})
+        }
+      }
+    }
+  ]
 };
