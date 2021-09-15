@@ -5,6 +5,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
+import { TwitterTimelineEmbed } from 'react-twitter-embed'
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -53,6 +54,13 @@ export default function Home() {
           </div>
         </div>
         <HomepageFeatures />
+        <div className={styles.tweets}>
+          <TwitterTimelineEmbed
+            sourceType="profile"
+            screenName="atek_cloud"
+            options={{height: 800}}
+          />
+        </div>
       </main>
     </Layout>
   );

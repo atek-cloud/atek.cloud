@@ -80,3 +80,12 @@
 .notice > div > p:last-child {
   margin-bottom: 0;
 }
+
+.tweets {
+  max-width: min(600px, 90vw);
+  margin: 4rem auto;
+  border: 1px solid #888;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  box-shadow: 0 3px 7px #0001;
+}
