@@ -150,6 +150,9 @@ module.exports = {
               else resolve(tweets)
             })
           })
+          console.log(__dirname)
+          console.log(await fs.promises.readdir(__dirname))
+          console.log(await fs.promises.readdir(path.join(__dirname, '..')))
           for (const tweet of tweets.slice(0, 6)) { // we only show the last 6 tweets
             await downloadTweetMedia(context, tweet)
           }
