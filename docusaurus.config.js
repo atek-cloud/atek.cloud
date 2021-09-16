@@ -163,7 +163,7 @@ module.exports = {
   ]
 };
 
-const TWITTER_MEDIA_DIR = path.join(__dirname, 'static', 'img', 'twitter')
+const TWITTER_MEDIA_DIR = path.join('static', 'img', 'twitter')
 async function downloadTweetMedia (tweet) {
   if (tweet.entities?.media?.length) {
     for (const item of tweet.entities.media) {
