@@ -1,0 +1,12 @@
+name: Regular Rebuild
+on:
+  schedule:
+    - cron: "0 0/6 * * *"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the deploy webhook
+        run: |
+          curl --request POST \
+          --url '${{ secrets.DEPLOY_WEBHOOK_URL }}'
