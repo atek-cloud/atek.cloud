@@ -2,6 +2,7 @@ name: Regular Rebuild
 on:
   schedule:
     - cron: "0 0/6 * * *"
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
