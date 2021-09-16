@@ -151,7 +151,7 @@ module.exports = {
             })
           })
           for (const tweet of tweets.slice(0, 6)) { // we only show the last 6 tweets
-            await downloadTweetMedia(tweet)
+            await downloadTweetMedia(context, tweet)
           }
           return {tweets}
         },
@@ -163,8 +163,8 @@ module.exports = {
   ]
 };
 
-const TWITTER_MEDIA_DIR = path.join('static', 'img', 'twitter')
-async function downloadTweetMedia (tweet) {
+async function downloadTweetMedia (context, tweet) {
+  const TWITTER_MEDIA_DIR = path.join(context.siteDir, 'static', 'img', 'twitter')
   if (tweet.entities?.media?.length) {
     for (const item of tweet.entities.media) {
       const filename = item.media_url.split('/').pop()
