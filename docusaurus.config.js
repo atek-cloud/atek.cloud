@@ -127,7 +127,7 @@ module.exports = {
         async loadContent () {
           if (!process.env.TWITTER_CONSUMER_KEY || !process.env.TWITTER_CONSUMER_SECRET || !process.env.TWITTER_BEARER_TOKEN) {
             console.log('Skipping tweet load: env params not set')
-            return
+            return {tweets: []}
           }
           var client = new Twitter({
             consumer_key: process.env.TWITTER_CONSUMER_KEY,
