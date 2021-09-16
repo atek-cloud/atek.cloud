@@ -23,6 +23,7 @@
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "request": "^2.88.2",
     "twitter": "^1.7.1",
     "url-loader": "^4.1.1"
   },

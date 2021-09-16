@@ -1,6 +1,9 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const Twitter = require('twitter')
+const fs = require('fs')
+const path = require('path')
+const request = require('request')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -134,7 +137,7 @@ module.exports = {
             consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
             bearer_token: process.env.TWITTER_BEARER_TOKEN
           });
-          return await new Promise((resolve, reject) => {
+          const tweets = await new Promise((resolve, reject) => {
             var params = {screen_name: 'atek_cloud', tweet_mode: 'extended'};
             console.log('Fetching tweets')
             client.get('statuses/user_timeline', params, function(error, tweets, response) {
@@ -144,14 +147,41 @@ module.exports = {
                 console.log('Fetched tweets successfully')
               }
               if (error) reject(error)
-              else resolve({tweets})
+              else resolve(tweets)
             })
           })
+          for (const tweet of tweets.slice(0, 6)) { // we only show the last 6 tweets
+            await downloadTweetMedia(tweet)
+          }
+          return {tweets}
         },
-        async contentLoaded ({content, actions}) {
+        contentLoaded ({content, actions}) {
           actions.setGlobalData({tweets: content.tweets})
         }
       }
     }
   ]
 };
+
+const TWITTER_MEDIA_DIR = path.join(__dirname, 'static', 'img', 'twitter')
+async function downloadTweetMedia (tweet) {
+  if (tweet.entities?.media?.length) {
+    for (const item of tweet.entities.media) {
+      const filename = item.media_url.split('/').pop()
+      const filepath = path.join(TWITTER_MEDIA_DIR, filename)
+      item.local_path = `/img/twitter/${filename}`
+      if (await fs.promises.stat(filepath).catch(e => undefined)) {
+        console.log('Already downloaded', filepath)
+        continue // file already exists
+      }
+      console.log('Downloading tweet media', filename)
+      await new Promise((resolve, reject) => {
+        request(item.media_url_https)
+          .pipe(fs.createWriteStream(filepath))
+          .on('close', resolve)
+          .on('error', reject)
+      })
+      console.log('Downloaded tweet media', filename)
+    }
+  }
+}

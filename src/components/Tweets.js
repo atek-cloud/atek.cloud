@@ -41,7 +41,7 @@ function Tweet({tweet}) {
       </div>
       {tweet.entities?.media?.length ?
         <div className={styles.tweetMedia}>
-          {tweet.entities.media.map(item => <div key={item.id}><Link to={tweetUrl}><img src={item.media_url_https}/></Link></div>)}
+          {tweet.entities.media.map(item => <div key={item.id}><Link to={tweetUrl}><img src={item.local_path}/></Link></div>)}
         </div>
       : ''}
     </div>
