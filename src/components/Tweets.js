@@ -14,7 +14,7 @@ function Tweet({tweet}) {
       text = text.replace(item.url, '')
     }
   }
-  let textParsed = text.split(' ').map(seg => {
+  let textParsed = text.split(/\s/i).map(seg => {
     if (seg.startsWith('@')) {
       return <Link to={`https://twitter.com/${seg.slice(1).replace(/[^a-z0-9_]/gi, '')}`}>{seg} </Link>
     }
