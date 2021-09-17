@@ -1,12 +1,12 @@
 ---
 slug: weekly-update-sep17-2021
 title: "Atek Weekly Update: Sep 17, 2021"
-description: TODO
+description: Users and auth, auto-updates, and lots of internal tech changes.
 author: Paul Frazee
 author_title: Atek Core Team
 author_url: https://twitter.com/pfrazee
 author_image_url: https://avatars.githubusercontent.com/u/1270099?v=4
-image: "/img/blog/weekly-livestreams-card.png"
+image: "/img/blog/weekly-update-card.png"
 tags: [announcements]
 ---
 
@@ -42,7 +42,6 @@ A lot this week's work occurred behind the scenes:
 - **Authed ADB APIs.** Atek DB APIs now enforce some permissions and assign ownership of databases to individual users.
 - **App owners.** All applications now have an "owning user," which is the user who installed them. If an application is installed for all users (such as the core services) they use the special `system` user.
 - **Per-user home apps.** The "main service" is now installed per user rather than acting as a core service.
-
 
 ## Today's livestream
 
