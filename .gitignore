@@ -2,4 +2,4 @@ node_modules
 build
 .DS_Store
 .docusaurus
-static/img/twitter
+static/img/twitter/*.jpg
