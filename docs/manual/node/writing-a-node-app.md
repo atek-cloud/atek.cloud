@@ -12,7 +12,7 @@ Your app will be passed the following environment variables:
 
 |key|description|
 |-|-|
-|`ATEK_ASSIGNED_PORT`|The port to which you HTTP server should bind.|
+|`ATEK_ASSIGNED_SOCKET_FILE`|The socket file to which you HTTP server should bind.|
 |`ATEK_HOST_PORT`|The port of the host environment HTTP server, which provides the host APIs.|
 |`ATEK_HOST_BEARER_TOKEN`|The "Bearer Auth" token which should be used in requests to the host.|
 
@@ -21,12 +21,12 @@ With this in mind, here's the hello world index.js:
 ```javascript
 import http from 'http'
 
-const PORT = Number(process.env.ATEK_ASSIGNED_PORT)
+const SOCKET = process.env.ATEK_ASSIGNED_SOCKET_FILE
 const server = http.createServer((req, res) => {
   res.writeHead(200).end('Hello, world!')
 })
-server.listen(PORT, e => {
-  console.log(`Hello World HTTP webserver running at: http://localhost:${PORT}/`);
+server.listen(SOCKET, e => {
+  console.log(`Hello World HTTP webserver running at ${SOCKET}`);
 })
 ```
 
@@ -103,6 +103,17 @@ Here is a simple example:
 ```
 
 This information will be used by Atek in various UIs.
+
+## Authentication
+
+There's no need to implement login or sessions, as Atek does this for you.
+
+Requests sent to your application will have the following headers set by Atek:
+
+- `Atek-Auth-User` - The key of the calling user.
+- `Atek-Auth-Service` - The key of the calling service.
+
+You can use these values for identity and permissions decisions. See [Security Model](../dev/security) for more information.
 
 ## What next?
 

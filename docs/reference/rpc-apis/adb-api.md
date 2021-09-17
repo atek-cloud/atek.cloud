@@ -132,8 +132,7 @@ interface CatRecord {
 }
 
 // define the cats table
-const catsTable = defineTable<CatRecord>({
-  id: 'example.com/cats',
+const catsTable = defineTable<CatRecord>('example.com/cats', {
   schema: {
     type: 'object',
     required: ['id', 'name']

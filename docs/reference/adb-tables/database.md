@@ -7,29 +7,29 @@ Settings and cached state for a database.
 ```typescript
 interface Database {
   dbId: string
+  owningUserKey?: string
   cachedMeta?: {
     displayName?: string
     writable?: boolean
   }
   network?: {
-    access?: NetworkAccess
+    access?: DatabaseNetworkAccess
   }
-  services?: ServiceConfig[]
+  services?: DatabaseServiceConfig[]
   createdBy?: {
-    accountId?: string
     serviceKey?: string
   }
-  createdAt: Date
+  createdAt: string
 }
 
-interface ServiceConfig {
+interface DatabaseServiceConfig {
   serviceKey: string
   alias?: string
   persist?: boolean
   presync?: boolean
 }
 
-enum NetworkAccess {
+enum DatabaseNetworkAccess {
   private = 'private',
   public = 'public'
 }

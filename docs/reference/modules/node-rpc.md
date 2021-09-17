@@ -56,6 +56,24 @@ app.post('/_api/my-api', (req, res) => myApiServer.handle(req, res, req.body))
 app.listen(PORT)
 ```
 
+### Request context
+
+You can access the request, response, and body (which are passed by you into `handle()`) from the `this` of any method handler.
+
+```javascript
+import { createRpcServer } from '@atek-cloud/node-rpc'
+
+const myApiServer = createRpcServer({
+  someFn () {
+    // this.req - The request object
+    // this.res - The response object
+    // this.body - The body object
+  }
+})
+```
+
+This is particularly useful for handling authentication information which is passed by headers.
+
 ## Validation and types
 
 If you would like to add validation to your server, you can pass an object as the second parameter to the constructor which defines the expected params and responses:
@@ -241,6 +259,8 @@ const myApi = client('example.com/my-api')
 myApi.$setEndpoint('http://localhost:1234/_api')
 ```
 
+The API gateway also requires an authorization header. You can change the header with `$setAuthHeader()`
+
 ## API
 
 ### rpc()
@@ -277,6 +297,10 @@ Construct an endpoint URL.
 
 Set the endpoint for an rpc client.
 
+### `rpcClient.$setAuthHeader(auth: string)`
+
+Set the auth header for an rpc client.
+
 ### rpcClient.$url
 
 `rpcClient.$url`
@@ -288,6 +312,10 @@ The current endpoint URL of a client.
 `rpcClient.$desc`
 
 The current api description/metadata of a client, used by atek to route the request.
+
+### `rpcClient.$auth`
+
+The current auth header.
 
 ### rpcClient.$rpc()
 

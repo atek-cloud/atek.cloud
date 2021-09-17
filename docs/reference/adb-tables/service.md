@@ -6,36 +6,35 @@ Service installed to a host environment.
 
 ```typescript
 interface Service {
-  id: string
-  port: number
-  sourceUrl: URL
-  desiredVersion?: string
+  id: string;
+  owningUserKey: string;
+  sourceUrl: string;
+  desiredVersion?: string;
   package: {
-    sourceType: SourceTypeEnum
-    installedVersion?: string
-    title?: string
-  }
-  manifest?: ServiceManifest
-  config?: ServiceConfig
-  installedBy: string
+      sourceType: SourceTypeEnum
+      installedVersion?: string
+      title?: string
+    };
+  manifest?: ServiceManifest;
+  config?: ServiceConfig;
 }
 
 interface ServiceManifest {
-  name?: string
-  description?: string
-  author?: string
-  license?: string
-  exports?: ApiExportDesc[]
+  name?: string;
+  description?: string;
+  author?: string;
+  license?: string;
+  exports?: ApiExportDesc[];
 }
 
 interface ApiExportDesc {
-  api: string
-  path?: string
-  transport?: ApiTransportEnum
+  api: string;
+  path?: string;
+  transport?: ApiTransportEnum;
 }
 
 interface ServiceConfig {
-  [key: string]: string
+  [key: string]: string;
 }
 
 enum SourceTypeEnum {

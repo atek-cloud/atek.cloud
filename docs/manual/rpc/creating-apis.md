@@ -72,6 +72,33 @@ const myApiServer = createMyApiServer({
 
 The patterns demonstrated above include both Typescript static type information as well as runtime type validation. Thanks to the types and validators defined in the module, consumers of your API will have a much easier time following the API definition.
 
+### Request context
+
+You can access the request, response, and body (which are passed by you into `handle()`) from the `this` of any method handler.
+
+```javascript
+import { createRpcServer } from '@atek-cloud/node-rpc'
+
+const myApiServer = createRpcServer({
+  someFn () {
+    // this.req - The request object
+    // this.res - The response object
+    // this.body - The body object
+  }
+})
+```
+
+This is particularly useful for handling authentication information which is passed by headers.
+
+```javascript
+const myApiServer = createRpcServer({
+  someFn () {
+    this.req.headers['atek-auth-user'] // => '...'
+    this.req.headers['atek-auth-service'] // => '...'
+  }
+})
+```
+
 ## Validation and types
 
 If you would like to add validation to your server, you can pass an object as the second parameter to the constructor which defines the expected params and responses:

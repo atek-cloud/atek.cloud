@@ -16,7 +16,7 @@ atek - Run the atek server
 
 Commands:
    atek run - Run the atek server
-   atek install {url_or_path} - Install a new service
+   atek install {url_or_path} --user {owning_user} - Install a new service
    atek uninstall {id} - Uninstall a service
    atek update {id} - Update a service installation from its source
    atek ls - List active services
@@ -25,7 +25,9 @@ Commands:
    atek start {id} - Start a service
    atek stop {id} - Stop a service
    atek restart {id} - Restart a service
-   atek repl - Connect a repl to the atek instance
+   atek mkuser - Create a user
+   atek moduser {id} - Modify a user
+   atek deluser {id} - Delete a user
 ```
 
 All commands support `-h/--help` and should be easy to understand with a few exceptions.

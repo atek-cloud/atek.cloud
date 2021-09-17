@@ -132,7 +132,7 @@ Service execution is managed by the host environment. Programs are currently run
 
 **⚠️ NOTE! Until a sandbox is introduced, Atek is not a safe environment. Node has no sandbox, and the ideal model will use containers or VMs to restrict program access to the host device. The security model described will not apply until this is done.**
 
-Programs are passed a small set of environment variables and allowed access to two ports: the host environment's port and an assigned port which the program must listen on.
+Programs are passed a small set of environment variables and allowed access to two ports: the host environment's port and an assigned socketfile which the program must listen on.
 
 In the most restrictive sandboxing mode, no other access to the hosting device is permitted; all external access is accomplished through RPC calls to the host environment. More relaxed sandboxes will be required for wallets and protocol daemons, including more access to network ports and the local filesystem, but these should be the exception: for instance, applications should seek to store data in Atek DB or other similar data stores as these can be managed by Atek.
 
@@ -175,9 +175,9 @@ Atek starts itself with the following steps:
 
 ### User accounts
 
-This system is still under active development. Atek must be a multi-user environment, as multiple users may share a hosting server (e.g. in home deployments). User ID-keys are automatically generated and opaque. Users may have the "super user" flag set to get special privileges over the system, including the ability to view all logs, install/configure system-wide programs, and read/write all user data.
+Atek is a multi-user environment as multiple users may share a hosting server (e.g. in home deployments). User identifying keys are automatically generated and opaque. Users may have the "role" attribute set to "admin" get special privileges over the system, including the ability to view all logs, install/configure system-wide programs, and read/write all user data.
 
-Programs will likely need to be installed for individual users or for the entire system. As a consequence, a program may be installed multiple times (for each user) or once (for all users). Programs may be designed for a single user or multiple user installation, as is appropriate for the program. (For instance, the Hypercore service must be a multi-user program, while a personal website might be a single-user program.)
+Programs have an owning user which dictates who may access the program and who the program represents. The exception to this rule is programs installed under the special "system" user, which is considered a multi-user program. As a consequence, a program may be installed multiple times (for each user) or once (for all users). Programs may be designed for a single user or multiple user installation, as is appropriate for the program. (For instance, the Hypercore service must be a multi-user program, while a personal website might be a single-user program.)
 
 ### Permissions
 
@@ -193,7 +193,7 @@ The host environment proxies to the services using their IDs as subdomains. This
 
 ### GUI environment ("main service")
 
-The host environment's "main service" -- that is, the HTTP UI which it hosts -- is a proxy to a service, much like the subdomains. It can be changed by setting the `mainService` config value to the ID of the service.
+The host environment's "main service" -- that is, the HTTP UI which it hosts -- is a proxy to a service, much like the subdomains. It is set by every user in their user record's settings, and must be an application "owned" by that user.
 
 The default GUI environment in Atek is called [Lonestar](https://github.com/atek-cloud/lonestar).
 
@@ -230,7 +230,7 @@ While the "no breaking changes" requirement may seem onerous, there are some sim
 
 ## User programs
 
-User programs are Node scripts which bind an HTTP server to their assigned port. Over time, Docker may be introduced to allow other runtimes.
+User programs are Node scripts which bind an HTTP server to their assigned socketfile. Over time, Docker may be introduced to allow other runtimes.
 
 ### Manifests
 
@@ -252,7 +252,7 @@ This manifest is likely to expand and change as Atek develops.
 
 The following environment variables are passed to the application process:
 
-- `ATEK_ASSIGNED_PORT`: The port to which the application process' HTTP server should bind.
+- `ATEK_ASSIGNED_SOCKET_FILE`: The socket-file to which the application process' HTTP server should bind.
 - `ATEK_HOST_PORT`: The port of the host environment HTTP server, which provides the host APIs.
 - `ATEK_HOST_BEARER_TOKEN`: The "Bearer Auth" token which should be passed in the HTTP Authentication header in requests to the host.
 

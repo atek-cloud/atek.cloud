@@ -91,8 +91,7 @@ ADB tables are TS/JS modules which can be reused across multiple applications.
 ```javascript
 import { defineTable } from '@atek-cloud/adb-api`
 
-export default defineTable({
-  id: 'example.com/cats',
+export default defineTable('example.com/cats', {
   revision: 1,
   definition: {
     type: 'object',
@@ -207,8 +206,7 @@ interface CatRecord {
   createdAt: string
 }
 
-export default defineTable<CatRecord>({
-  id: 'example.com/cats',
+export default defineTable<CatRecord>('example.com/cats', {
   schema: {
     type: 'object',
     required: ['id', 'name']
