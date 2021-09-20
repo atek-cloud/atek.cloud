@@ -37,7 +37,7 @@ Rather than running your app using node, you ask atek to do it. (Check out the [
 During development, this is very simple. Just run:
 
 ```
-atek install {path}
+atek install --user {your_username} {path}
 ```
 
 Atek will install the app and run it from your folder.
