@@ -15,9 +15,6 @@ function HomepageHeader() {
         <img className={styles.heroImg} src="/img/logo.png" />
         <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
         <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
-        <div className={styles.heroButtons}>
-          <Link className="button button--secondary button--lg" to="/docs/manual/getting-started">Get Started</Link>
-        </div>
       </div>
     </header>
   );
@@ -31,26 +28,15 @@ export default function Home() {
       description={siteConfig.description}>
       <HomepageHeader />
       <main>
-        <div className={styles.notice}>
-          <div>
-            <h3>Hi everybody!</h3>
-            <p>
-              <Link to="https://twitter.com/pfrazee">Paul Frazee</Link> here.
-              Atek is still a work in progress. I created this site to help get contributors onboarded.
-            </p>
-            <p>
-              Check out the <Link to="/docs/manual/dev/architecture">Architecture Document</Link> and
-              the <Link to="/blog/hello-world">Introductory Blogpost</Link> to learn more about what Atek is about.
-              We have a <Link to="https://discord.gg/UUCVrFYksv">Discord channel</Link> and a <Link to="https://github.com/atek-cloud/atek/discussions">GitHub discussion board</Link> where you can get involved.
-            </p>
-          </div>
-        </div>
         <div className={styles.explanation}>
           <div>
             <h2>What is Atek?</h2>
-            Atek is a personal cloud for small home servers like <Link to="https://www.raspberrypi.org/">Raspberry Pis</Link>.
-            It uses peer-to-peer tech to connect your devices so you can share posts,
-            photos, chats, and applications with the privacy and control you want.
+            <p>
+              Atek is a personal cloud for small home servers like <Link to="https://www.raspberrypi.org/">Raspberry Pis</Link>.
+              It uses peer-to-peer tech to connect your devices so you can share posts,
+              photos, chats, and applications with the privacy and control you want.
+            </p>
+            <p><Link className="button button--primary button--lg" to="/docs/manual/getting-started">Get Started</Link></p>
           </div>
         </div>
         <HomepageFeatures />

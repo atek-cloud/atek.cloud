@@ -6,7 +6,7 @@
  */
 
 .heroBanner {
-  padding: 4rem 0 10rem;
+  padding: 4rem 0 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -17,13 +17,12 @@
 
 @media screen and (max-width: 966px) {
   .heroBanner {
-    padding: 6rem 2rem 14rem;
+    padding: 6rem 2rem 5em;
   }
 }
 
 @media screen and (max-width: 420px) {
   .heroBanner {
-    padding-bottom: 12rem;
   }
 }
 
@@ -63,12 +62,6 @@
   }
 }
 
-.heroButtons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .explanation {
   background-color: #fff;
   position: relative;
@@ -79,30 +72,7 @@
   text-align: center;
   margin: 0 auto;
   font-size: 1.15rem;
-  padding: 0.5rem 1rem 4rem;
-}
-
-.notice {
-  background-color: #fff;
-  padding: 0 0 0;
-}
-
-.notice > div {
-  position: relative;
-  top: -7rem;
-  width: 100%;
-  max-width: min(600px, 90vw);
-  margin: 0 auto -4rem;
-  background-color: #fff;
-  border: 1px solid #888;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 3px 7px #0001;
-}
-
-.notice > div > p:last-child {
-  margin-bottom: 0;
+  padding: 4rem 1rem 4rem;
 }
 
 .tweets {

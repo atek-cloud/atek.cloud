@@ -3,9 +3,9 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 3rem 0 5rem;
+  padding: 0 0 3rem;
   width: 100%;
-  background-color: var(--ifm-footer-background-color);
+  background-color: #fff;
 }
 
 .featureItem {
