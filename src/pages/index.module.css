@@ -6,13 +6,10 @@
  */
 
 .heroBanner {
-  padding: 4rem 0 4rem;
+  padding: 12rem 0 12rem;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background:
-    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAB9JREFUGFdjZEAF/xmR+P8ZGBgYYQJgDkgSRMA5IAEAgq4EBI6THD4AAAAASUVORK5CYII=),
-    linear-gradient(180deg, #444, #333);
 }
 
 @media screen and (max-width: 966px) {
@@ -21,19 +18,29 @@
   }
 }
 
+.heroImgContainer {
+  margin: 0 auto 2rem;
+  width: 16rem;
+  height: 16rem;
+  padding: 2.3rem 2rem;
+  border: 3px solid #000;
+  border-radius: 50%;
+}
+
 .heroImg {
   display: block;
-  margin: 0 auto 2rem;
-  width: 20rem;
-  filter: drop-shadow(0px 6px 4px #0004);
 }
 
 .heroTitle {
   font-size: 4rem;
-  color: #fff;
 }
 
 @media screen and (max-width: 420px) {
+  .heroImgContainer {
+    width: 12rem;
+    height: 12rem;
+    padding: 1.8rem 1.5rem;
+  }
   .heroTitle {
     font-size: 3rem;
   }
@@ -47,8 +54,8 @@
 
 .heroSubtitle {
   font-size: 2rem;
-  color: #fff;
   margin-bottom: 2.5rem;
+  line-height: 1.2;
 }
 
 @media screen and (max-width: 420px) {
@@ -67,7 +74,7 @@
   text-align: center;
   margin: 0 auto;
   font-size: 1.15rem;
-  padding: 4rem 1rem 4rem;
+  padding: 0 1rem 5rem;
 }
 
 .tweets {

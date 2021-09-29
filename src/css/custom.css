@@ -46,3 +46,12 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   margin-bottom: 1rem;
   text-align: center;
 }
+
+.navbar {
+  box-shadow: none;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.homepage .navbar {
+  border-bottom: 0;
+}

@@ -12,19 +12,12 @@
 }
 
 .featureImgWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #333;
-  border-radius: 50%;
+  display: block;
   width: 140px;
   height: 140px;
-  margin: 2rem auto 2rem;
+  margin: 0 auto 1rem;
 }
 
 .featureImg {
   display: block;
-  height: 120px;
-  width: 120px;
-  filter: drop-shadow(0px 2px 2px #0004);
 }

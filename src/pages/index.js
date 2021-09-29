@@ -12,7 +12,9 @@ function HomepageHeader() {
   return (
     <header className={styles.heroBanner}>
       <div className="container">
-        <img className={styles.heroImg} src="/img/logo.png" />
+        <div className={styles.heroImgContainer}>
+          <img className={styles.heroImg} src="/img/logo.svg" />
+        </div>
         <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
         <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
       </div>
@@ -23,27 +25,29 @@ function HomepageHeader() {
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <Layout
-      title="Atek - An open source peer-to-peer Home Cloud"
-      description={siteConfig.description}>
-      <HomepageHeader />
-      <main>
-        <div className={styles.explanation}>
-          <div>
-            <h2>What is Atek?</h2>
-            <p>
-              Atek is a personal cloud for small home servers like <Link to="https://www.raspberrypi.org/">Raspberry Pis</Link>.
-              It uses peer-to-peer tech to connect your devices so you can share posts,
-              photos, chats, and applications with the privacy and control you want.
-            </p>
-            <p><Link className="button button--primary button--lg" to="/docs/manual/getting-started">Get Started</Link></p>
+    <div className="homepage">
+      <Layout
+        title="Atek - An open source peer-to-peer Home Cloud"
+        description={siteConfig.description}
+      >
+        <HomepageHeader />
+        <main>
+          <div className={styles.explanation}>
+            <div>
+              <h2>What is Atek?</h2>
+              <p>
+                Atek is a personal cloud for small home servers like <Link to="https://www.raspberrypi.org/">Raspberry Pis</Link>.
+                It uses peer-to-peer tech to turn NodeJS programs into private, self-hosted Web apps with privacy and global connectivity.
+              </p>
+              <p><Link className="button button--primary button--lg" to="/docs/manual/getting-started">Get Started</Link></p>
+            </div>
           </div>
-        </div>
-        <HomepageFeatures />
-        <div className={styles.tweets}>
-          <Tweets />
-        </div>
-      </main>
-    </Layout>
+          <HomepageFeatures />
+          <div className={styles.tweets}>
+            <Tweets />
+          </div>
+        </main>
+      </Layout>
+    </div>
   );
 }

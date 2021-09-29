@@ -6,7 +6,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Get Involved',
-    src: '/img/get-involved.png',
+    src: '/img/get-involved.svg',
     to: 'https://github.com/atek-cloud/atek/discussions',
     description: (
       <>
@@ -17,7 +17,7 @@ const FeatureList = [
   },
   {
     title: 'Read the Manual',
-    src: '/img/manual.png',
+    src: '/img/manual.svg',
     to: '/docs/manual/index',
     description: (
       <>
@@ -28,7 +28,7 @@ const FeatureList = [
   },
   {
     title: 'Read the Reference',
-    src: '/img/reference.png',
+    src: '/img/reference.svg',
     to: '/docs/reference/cli',
     description: (
       <>

@@ -7,8 +7,8 @@ const request = require('request')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Atek Cloud',
-  tagline: 'An open source peer-to-peer Home Cloud',
+  title: 'Atek.Cloud',
+  tagline: 'A peer-to-peer + nodejs cloud',
   url: 'https://atek.cloud',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -26,7 +26,7 @@ module.exports = {
       title: 'Atek Cloud',
       logo: {
         alt: 'Atek Cloud Logo',
-        src: 'img/logo-sm.png',
+        src: 'img/logo.svg',
       },
       items: [
         {
