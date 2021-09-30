@@ -21,16 +21,14 @@ await cats(db).put('kit', {id: 'kit', name: 'Kitty'})
 await cats(db).delete('kit')
 ```
 
-See [The Atek DB Guide](/docs/manual/adb/intro) to learn how to use ADB.
+See [The Atek DB Guide](https://atek.cloud/docs/manual/adb/intro) to learn how to use ADB.
 
-<a name="modulesmd"></a>
-
-## Default export
+## Default export properties
 
 | Name | Type |
 | :------ | :------ |
-| `.api` | `AdbApi` & `AtekRpcClient` |
-| `.db` | (`dbId`: `string` \| `DbSettings`, `opts?`: `DbSettings`) => [`AdbDatabase`](#classesadbdatabasemd) |
+| `api` | `AdbApi` & `AtekRpcClient` |
+| `db` | (`dbId`: `string` \| `DbConfig`, `opts?`: `DbConfig`) => [`AdbDatabase`](#classesadbdatabasemd) |
 
 Use the `.db()` method to create [`AdbDatabase`](#classesadbdatabasemd) instances. You may pass a Hypercore 64-character hex-string key or an arbitrary string (which will be a local alias).
 
@@ -48,8 +46,56 @@ const db2 = adb.db('97396e81e407e5ae7a64b375cc54c1fc1a0d417a5a72e2169b5377506e1e
 
 The `.api` is the RPC interface which will be used by `.db()`.
 
-## Functions
+## Exported Functions
 
+### defineSchema
+
+▸ **defineSchema**<`T`\>(`path`, `opts?`): (`db`: [`AdbDatabase`](#classesadbdatabasemd)) => `any`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `path` | `string` \| `string`[] |
+| `opts?` | [`AdbSchemaOpts`](#interfacesadbschemaoptsmd) |
+
+#### Returns
+
+`fn`
+
+▸ (`db`): `any`
+
+Use this function to create reusable record schemas.
+
+```typescript
+import adb, { defineSchema } from '@atek-cloud/adb-api`
+
+interface CatRecord {
+  id: string
+  name: string
+  createdAt: string
+}
+
+const cats = defineSchema<CatRecord>('example.com/cats', {
+  pkey: '/id',
+  jsonSchema: {
+    type: 'object',
+    required: ['id', 'name']
+    properties: {
+      id: {type: 'string'},
+      name: {type: 'string'},
+      createdAt: {type: 'string', format: 'date-time'}
+    }
+  }
+})
+
+await cats(adb.db('mydb')).create({
+  id: 'kit',
+  name: 'Kit the Cat'
+})
+```
+
+---
 ### createClient
 
 ▸ **createClient**(): `AdbApi` & `AtekRpcClient`
@@ -58,14 +104,8 @@ The `.api` is the RPC interface which will be used by `.db()`.
 
 `AdbApi` & `AtekRpcClient`
 
-Use this method to create additional instances of the RPC interface, if needed.
+Creates an `AdbApi` instance. You can typically use the `.api` exported on the default object, but if you need to configure a separate API instance you can use this function.
 
-```typescript
-import { createClient } from '@atek-cloud/adb-api'
-
-const adbApi = createClient()
-// adbApi is another instance of the default export's adb.api
-```
 ___
 
 ### createServer
@@ -82,107 +122,10 @@ ___
 
 `AtekRpcServer`
 
-Use this method to create an ADB server API. You'll only need this if you're creating an alternative implementation to the main ADB.
+Creates an `AtekRpcServer` server. You would only ever need this if creating your own ADB server (perhaps for test mocking).
 
-___
-
-### defineTable
-
-▸ **defineTable**<`T`\>(`tableId`, `desc`): (`db`: [`AdbDatabase`](#classesadbdatabasemd)) => `any`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `object` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `desc` | `TableSettings` |
-
-#### Returns
-
-`fn`
-
-▸ (`db`): [`AdbTable<T>`](#classesadbtablemd)
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `db` | [`AdbDatabase`](#classesadbdatabasemd) |
-
-##### Returns
-
-[`AdbDatabase`](#classesadbdatabasemd)
-
-Creates a table API which can be called on databases:
-
-```typescript
-import adb, { defineTable } from '@atek-cloud/adb-api`
-
-// provide a typescript interface for the records
-interface CatRecord {
-  id: string
-  name: string
-  createdAt: string
-}
-
-// define the cats table
-const catsTable = defineTable<CatRecord>('example.com/cats', {
-  schema: {
-    type: 'object',
-    required: ['id', 'name']
-    properties: {
-      id: {type: 'string'},
-      name: {type: 'string'},
-      createdAt: {type: 'string', format: 'date-time'}
-    }
-  },
-  templates: {
-    table: {
-      title: 'Cats',
-      description: 'A table for tracking my cats'
-    },
-    record: {
-      key: '{{/id}}',
-      title: 'Kitty: {{/name}}'
-    }
-  }
-})
-
-// use the cats table
-const db = adb.db('mydb')
-await cats(db).create({id: 'kit', name: 'Kit'})
-await cats(db).list() // => {records: [{key: 'kit', value: {id: 'kit', name: 'Kit', createdAt: '2021-09-07T01:06:07.487Z'}}]}
-await cats(db).get('kit') // => {key: 'kit', value: {id: 'kit', name: 'Kit', createdAt: '2021-09-07T01:06:07.487Z'}}
-await cats(db).put('kit', {id: 'kit', name: 'Kitty'})
-await cats(db).delete('kit')
-```
-
-<a name="classesadbdatabasemd"></a>
 
 ## Class: AdbDatabase
-
-- Properties
-  - isReady
-  - api
-  - dbId
-- Methods
-  - describe
-  - define
-  - list
-  - get
-  - create
-  - put
-  - delete
-  - diff
-  - getBlob
-  - putBlob
-  - delBlob
 
 ### Constructor
 
@@ -194,13 +137,13 @@ await cats(db).delete('kit')
 | :------ | :------ |
 | `api` | `AdbApi` |
 | `dbId` | `string` |
-| `opts?` | `DbSettings` |
+| `opts?` | `DbConfig` |
 
 ### Properties
 
 #### isReady
 
-• **isReady**: `undefined` \| `Promise`<`any`\>
+• **isReady**: `Promise`<`any`\>
 
 ___
 
@@ -218,38 +161,19 @@ ___
 
 #### describe
 
-▸ **describe**(): `Promise`<`DbDescription`\>
+▸ **describe**(): `Promise`<`DbInfo`\>
 
 **`desc`** Get metadata and information about the database.
 
 ##### Returns
 
-`Promise`<`DbDescription`\>
-
-___
-
-#### define
-
-▸ **define**(`tableId`, `desc`): `Promise`<`TableDescription`\>
-
-**`desc`** Register a table's schema and metadata.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `desc` | `TableSettings` |
-
-##### Returns
-
-`Promise`<`TableDescription`\>
+`Promise`<`DbInfo`\>
 
 ___
 
 #### list
 
-▸ **list**(`tableId`, `opts?`): `Promise`<`Object`\>
+▸ **list**(`path`, `opts?`): `Promise`<`Object`\>
 
 **`desc`** List records in a table.
 
@@ -257,7 +181,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `tableId` | `string` |
+| `path` | `string` \| `string`[] |
 | `opts?` | `ListOpts` |
 
 ##### Returns
@@ -268,7 +192,7 @@ ___
 
 #### get
 
-▸ **get**(`tableId`, `key`): `Promise`<`Record`<`object`\>\>
+▸ **get**(`path`): `Promise`<`Record`<`object`\>\>
 
 **`desc`** Get a record in a table.
 
@@ -276,28 +200,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
-
-##### Returns
-
-`Promise`<`Record`<`object`\>\>
-
-___
-
-#### create
-
-▸ **create**(`tableId`, `value`, `blobs?`): `Promise`<`Record`<`object`\>\>
-
-**`desc`** Add a record to a table.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `value` | `object` |
-| `blobs?` | `BlobMap` |
+| `path` | `string` \| `string`[] |
 
 ##### Returns
 
@@ -307,7 +210,7 @@ ___
 
 #### put
 
-▸ **put**(`tableId`, `key`, `value`): `Promise`<`Record`<`object`\>\>
+▸ **put**(`path`, `value`): `Promise`<`Record`<`object`\>\>
 
 **`desc`** Write a record to a table.
 
@@ -315,8 +218,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
+| `path` | `string` \| `string`[] |
 | `value` | `object` |
 
 ##### Returns
@@ -327,7 +229,7 @@ ___
 
 #### delete
 
-▸ **delete**(`tableId`, `key`): `Promise`<`void`\>
+▸ **delete**(`path`): `Promise`<`void`\>
 
 **`desc`** Delete a record from a table.
 
@@ -335,119 +237,23 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
+| `path` | `string` \| `string`[] |
 
 ##### Returns
 
 `Promise`<`void`\>
 
-___
+## Class: AdbSchema<T\>
 
-#### diff
-
-▸ **diff**(`opts`): `Promise`<`Diff`[]\>
-
-**`desc`** Enumerate the differences between two versions of the database.
-
-##### Parameters
+### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `opts` | `Object` |
-| `opts.left` | `number` |
-| `opts.right?` | `number` |
-| `opts.tableIds?` | `string`[] |
-
-##### Returns
-
-`Promise`<`Diff`[]\>
-
-___
-
-#### getBlob
-
-▸ **getBlob**(`tableId`, `key`, `blobName`): `Promise`<`Blob`\>
-
-**`desc`** Get a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
-| `blobName` | `string` |
-
-##### Returns
-
-`Promise`<`Blob`\>
-
-___
-
-#### putBlob
-
-▸ **putBlob**(`tableId`, `key`, `blobName`, `blobValue`): `Promise`<`void`\>
-
-**`desc`** Write a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
-| `blobName` | `string` |
-| `blobValue` | `BlobDesc` |
-
-##### Returns
-
-`Promise`<`void`\>
-
-___
-
-#### delBlob
-
-▸ **delBlob**(`tableId`, `key`, `blobName`): `Promise`<`void`\>
-
-**`desc`** Delete a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `tableId` | `string` |
-| `key` | `string` |
-| `blobName` | `string` |
-
-##### Returns
-
-`Promise`<`void`\>
-
-
-<a name="classesadbtablemd"></a>
-
-## Class: AdbTable<T\>
-
-- Properties
-  - isReady
-  - db
-  - tableId
-  - tableDesc
-- Methods
-  - list
-  - get
-  - create
-  - put
-  - delete
-  - diff
-  - getBlob
-  - putBlob
-  - delBlob
+| `T` | extends `object` |
 
 ### Constructor
 
-• **new AdbTable**<`T`\>(`db`, `tableId`, `tableDesc`)
+• **new AdbSchema**<`T`\>(`db`, `path`, `opts?`)
 
 #### Type parameters
 
@@ -460,10 +266,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `db` | [`AdbDatabase`](#classesadbdatabasemd) |
-| `tableId` | `string` |
-| `tableDesc` | `TableSettings` |
+| `path` | `string` \| `string`[] |
+| `opts?` | [`AdbSchemaOpts`](#interfacesadbschemaoptsmd) |
 
 ### Properties
+
+#### path
+
+• **path**: `string`[]
+
+___
 
 #### isReady
 
@@ -471,21 +283,33 @@ ___
 
 ___
 
+#### pkey
+
+• `Optional` **pkey**: `string` \| `string`[]
+
+___
+
+#### pkeyFn
+
+• **pkeyFn**: `PkeyFunction`
+
+___
+
+#### jsonSchema
+
+• `Optional` **jsonSchema**: `object`
+
+___
+
+#### validator
+
+• `Optional` **validator**: `Validator`
+
+___
+
 #### db
 
 • **db**: [`AdbDatabase`](#classesadbdatabasemd)
-
-___
-
-#### tableId
-
-• **tableId**: `string`
-
-___
-
-#### tableDesc
-
-• **tableDesc**: `TableSettings`
 
 ### Methods
 
@@ -493,7 +317,7 @@ ___
 
 ▸ **list**(`opts?`): `Promise`<`Object`\>
 
-**`desc`** List records in the table.
+**`desc`** List records in the schema.
 
 ##### Parameters
 
@@ -509,46 +333,47 @@ ___
 
 #### get
 
-▸ **get**(`key`): `Promise`<`Record`<`T`\>\>
+▸ **get**(`key`, `opts?`): `Promise`<`undefined` \| `Record`<`T`\>\>
 
-**`desc`** Get a record in the table.
+**`desc`** Get a record in the schema space.
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `key` | `string` |
+| `opts?` | `ValidationOpts` |
 
 ##### Returns
 
-`Promise`<`Record`<`T`\>\>
+`Promise`<`undefined` \| `Record`<`T`\>\>
 
 ___
 
 #### create
 
-▸ **create**(`value`, `blobs?`): `Promise`<`Record`<`T`\>\>
+▸ **create**(`value`, `opts?`): `Promise`<`undefined` \| `Record`<`T`\>\>
 
-**`desc`** Add a record to the table.
+**`desc`** Add a record to the schema space.
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `value` | `T` |
-| `blobs?` | `BlobMap` |
+| `opts?` | `ValidationOpts` |
 
 ##### Returns
 
-`Promise`<`Record`<`T`\>\>
+`Promise`<`undefined` \| `Record`<`T`\>\>
 
 ___
 
 #### put
 
-▸ **put**(`key`, `value`): `Promise`<`Record`<`T`\>\>
+▸ **put**(`key`, `value`, `opts?`): `Promise`<`undefined` \| `Record`<`T`\>\>
 
-**`desc`** Write a record to the table.
+**`desc`** Write a record to the schema space.
 
 ##### Parameters
 
@@ -556,10 +381,11 @@ ___
 | :------ | :------ |
 | `key` | `string` |
 | `value` | `T` |
+| `opts?` | `ValidationOpts` |
 
 ##### Returns
 
-`Promise`<`Record`<`T`\>\>
+`Promise`<`undefined` \| `Record`<`T`\>\>
 
 ___
 
@@ -567,7 +393,7 @@ ___
 
 ▸ **delete**(`key`): `Promise`<`void`\>
 
-**`desc`** Delete a record from the table.
+**`desc`** Delete a record from the schema space.
 
 ##### Parameters
 
@@ -579,81 +405,17 @@ ___
 
 `Promise`<`void`\>
 
-___
+## Interface: AdbSchemaOpts
 
-#### diff
+### Properties
 
-▸ **diff**(`opts`): `Promise`<`Diff`[]\>
+#### pkey
 
-**`desc`** Enumerate the differences between two versions of the database.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `opts` | `Object` |
-| `opts.left` | `number` |
-| `opts.right?` | `number` |
-
-##### Returns
-
-`Promise`<`Diff`[]\>
+• `Optional` **pkey**: `string` \| `string`[]
 
 ___
 
-#### getBlob
+#### jsonSchema
 
-▸ **getBlob**(`key`, `blobName`): `Promise`<`Blob`\>
-
-**`desc`** Get a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `blobName` | `string` |
-
-##### Returns
-
-`Promise`<`Blob`\>
-
-___
-
-#### putBlob
-
-▸ **putBlob**(`key`, `blobName`, `blobValue`): `Promise`<`void`\>
-
-**`desc`** Write a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `blobName` | `string` |
-| `blobValue` | `BlobDesc` |
-
-##### Returns
-
-`Promise`<`void`\>
-
-___
-
-#### delBlob
-
-▸ **delBlob**(`key`, `blobName`): `Promise`<`void`\>
-
-**`desc`** Delete a blob of a record.
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `blobName` | `string` |
-
-##### Returns
-
-`Promise`<`void`\>
+• `Optional` **jsonSchema**: `object`
 

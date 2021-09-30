@@ -24,6 +24,7 @@ interface ServiceManifest {
   description?: string;
   author?: string;
   license?: string;
+  frame?: boolean;
   exports?: ApiExportDesc[];
 }
 

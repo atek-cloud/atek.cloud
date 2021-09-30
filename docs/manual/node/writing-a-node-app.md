@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Writing a Node app
 
-Writing a NodeJS app for Atek should be easy. You may want to refer to the [Hello World application](https://github.com/atek-cloud/hello-world-node).
+NodeJS is Atek's runtime for applications. This guide will introduce you to building Atek apps with node. You may want to refer to the [Hello World application](https://github.com/atek-cloud/hello-world-node).
 
 An Atek application is expected to host an HTTP server. If it needs to, it can communicate with Atek and other Atek applications by speaking to the Atek server. This communication occurs mainly using JSON-RPC over HTTP post requests.
 
@@ -13,6 +13,7 @@ Your app will be passed the following environment variables:
 |key|description|
 |-|-|
 |`ATEK_ASSIGNED_SOCKET_FILE`|The socket file to which you HTTP server should bind.|
+|`ATEK_ASSIGNED_SERVICE_KEY`|The "key" under which the application is identified by Atek.|
 |`ATEK_HOST_PORT`|The port of the host environment HTTP server, which provides the host APIs.|
 |`ATEK_HOST_BEARER_TOKEN`|The "Bearer Auth" token which should be used in requests to the host.|
 
@@ -49,12 +50,46 @@ If you need to see logs about what's happening, watch the Atek process: that's w
 While you're working, you'll probably need to start, stop, and restart the app. You can do that using atek commands:
 
 ```
+atek ls # list the active processes and find the ID of yours
 atek restart {id}
 atek start {id}
 atek stop {id}
 ```
 
-Your app will be assigned an ID as well as a port. You can access your app either at `http://{id}.localhost` or `http://localhost:{port}`. If you don't know the ID of your service, call `atek ls` to find it.
+Your app will be assigned an ID. You can access your app either at `http://{id}.localhost`. If you don't know the ID of your service, call `atek ls` to find it. (Note that the "ID" is different than the "service key." The service ID is a user-friendly name that can change, while the service key is an opaque & fixed identifer used internally.)
+
+## Authentication
+
+All requests to your application will be routed through Atek. This includes requests from the user in their browser as well as requests from other applications.
+
+Each request will have the following headers set:
+
+- `Atek-Auth-User` - The key of the calling service's owning user.
+- `Atek-Auth-Service` - The key of the calling service.
+
+Users can't access your app without logging into Atek first, so these fields will always be set. This means you don't have to worry about implementing sign-in!
+
+Requests to your application from the browser have the `Atek-Auth-User` header set to the logged-in user. In that case, the `Atek-Auth-Service` header be your application's service key, which you can find in the `ATEK_ASSIGNED_SERVICE_KEY` environment variable.
+
+```js
+const server = http.createServer((req, res) => {
+  if (req.headers['atek-auth-service'] === process.env.ATEK_ASSIGNED_SERVICE_KEY) {
+    // a request by this app to itself, most likely from the frontend by the logged-in user
+  }
+})
+```
+
+Requests from the Atek host will have both the service and user keys set to "system".
+
+```js
+const server = http.createServer((req, res) => {
+  if (req.headers['atek-auth-service'] === 'system' && req.headers['atek-auth-user'] === 'system') {
+    // a request from the Atek host environment
+  }
+})
+```
+
+Requests from other installed applications will have the service key set to that app's key. As every application is "owned" by some user, the user header will be set to the app owner's key. (Note that multi-user apps like Atek DB are "owned" by the system user, so be sure to check both the service and user headers to determine who is calling.)
 
 ## Publishing your app
 
@@ -103,17 +138,6 @@ Here is a simple example:
 ```
 
 This information will be used by Atek in various UIs.
-
-## Authentication
-
-There's no need to implement login or sessions, as Atek does this for you.
-
-Requests sent to your application will have the following headers set by Atek:
-
-- `Atek-Auth-User` - The key of the calling user.
-- `Atek-Auth-Service` - The key of the calling service.
-
-You can use these values for identity and permissions decisions. See [Security Model](../dev/security) for more information.
 
 ## What next?
 

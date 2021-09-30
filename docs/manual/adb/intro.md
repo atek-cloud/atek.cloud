@@ -11,12 +11,9 @@ ADB is still in development. This document is an overview of the current state o
 Atek DB is a document-oriented database with:
 
 - Global, peer-to-peer access using [Hypercore Protocol](https://hypercore-protocol.org)
-- Strict record schemas
-- User-friendly record descriptions
-- Computed views and complex queries (*incomplete*)
-- Transactional updates (*incomplete*)
-
-ADB is designed for building decentralized applications and draws from experience with Secure Scuttlebutt, Beaker browser, and CTZN (the Atek founder's previous work).
+- Optional record schemas
+- Computed views and complex queries (*planned*)
+- Transactional updates (*planned*)
 
 **ADB is still in development and is lacking complex queries, secondary indexes, permissions, computed views, and transactional updates.**
 
@@ -26,12 +23,12 @@ Useful links:
 
 ## Overview
 
-ADB's goal is to be easy for users and devs alike as a foundation for decentralized apps. What's interesting about ADB is, databases created on one device can be easily synced to another device while the strict schemas give clear information for interoperation. You can build multi-user applications entirely by sharing databases between devices.
+ADB's goal is to be easy for users and devs alike as a foundation for decentralized apps. What's interesting about ADB is, databases created on one device can be easily synced to another device. You can build multi-user applications entirely by sharing databases between devices.
 
 Here's an API overview for ADB:
 
 ```typescript
-import adb from '@atek-cloud/adb'
+import adb from '@atek-cloud/adb-api'
 
 // get or create a database under the 'mydb' alias
 // - the 'mydb' alias will be stored under this application for easy future access
@@ -42,10 +39,21 @@ const db = adb.db('mydb')
 const db2 = adb.db('97396e81e407e5ae7a64b375cc54c1fc1a0d417a5a72e2169b5377506e1e3163')
 ```
 
-Tables are treated as modules to be shared between applications and applied to databases.
+Records are accessed under paths, similar to a filesystem. All records are JSON.
 
 ```typescript
-import posts from 'my-posts-table'
+await db.put('/my/stuff/1', {hello: 'world'})
+await db.list('/my/stuff') // => {records: [{key: '1', path: '/my/stuff/1', value: {hello: 'world'}}]}
+await db.get('/my/stuff/1')  // => {key: '1', path: '/my/stuff/1', value: {hello: 'world'}}
+
+// note that list() is recursive and the key will be set relative to the requested path
+await db.list('/') // => {records: [{key: 'my/stuff/1', path: '/my/stuff/1', value: {hello: 'world'}}]}
+```
+
+Schemas can be optionally applied to help enforce a specific record shape. Those schemas can be shared as modules.
+
+```typescript
+import posts from 'my-posts-schema'
 
 posts(db).create({content: 'Hello, world!'})
 await posts(db).list()
@@ -55,7 +63,7 @@ await posts(db).list()
 
 ```typescript
 // NOTE: the merge() function has not yet been implemented
-import posts from 'my-posts-table'
+import posts from 'my-posts-schema'
 const feed = await posts.merge([db1, db2, db3]).list({limit: 15, reverse: true})
 ```
 
@@ -63,13 +71,13 @@ const feed = await posts.merge([db1, db2, db3]).list({limit: 15, reverse: true})
 
 ```typescript
 // NOTE: the view API has not yet been implemented
-import posts from 'my-posts-table'
+import posts from 'my-posts-schema'
 import feedView from 'my-feed-view'
 
 // on a private database, create a view of posts from 3 databases
 const privateDb = adb.db('app-private-db', {network: false})
 feedView(privateDb)
-  .table(posts, (view, diff) => {
+  .from(posts, (view, diff) => {
     if (!diff.left && diff.right) {
       // new post
       view.index(diff.right.value.createdAt, view.ptr(diff.right.url))
@@ -84,32 +92,22 @@ feedView(privateDb)
 const feed = await feedView(privateDb).list({limit: 15, reverse: true})
 ```
 
-## Defining tables
+## Defining schemas
 
-ADB tables are TS/JS modules which can be reused across multiple applications.
+ADB schemas are TS/JS modules which can be reused across multiple applications. They are entirely optional, but might help keep your software accurate.
 
 ```javascript
-import { defineTable } from '@atek-cloud/adb-api`
+import { defineSchema } from '@atek-cloud/adb-api`
 
-export default defineTable('example.com/cats', {
-  revision: 1,
-  definition: {
+export default defineSchema('example.com/cats', {
+  pkey: '/id',
+  jsonSchema: {
     type: 'object',
     required: ['id', 'name']
     properties: {
       id: {type: 'string'},
       name: {type: 'string'},
       createdAt: {type: 'string', format: 'date-time'}
-    }
-  },
-  templates: {
-    table: {
-      title: 'Cats',
-      description: 'A table for tracking my cats'
-    },
-    record: {
-      key: '{{/id}}',
-      title: 'Kitty: {{/name}}'
     }
   }
 })
@@ -118,8 +116,8 @@ export default defineTable('example.com/cats', {
 It can then be used on a database:
 
 ```javascript
-import adb from '@atek-cloud/adb'
-import catsTable from 'my-cats-table'
+import adb from '@atek-cloud/adb-api'
+import cats from 'my-cats-schema'
 
 cats(adb.db('mydb')).create({
   id: 'kit',
@@ -127,78 +125,20 @@ cats(adb.db('mydb')).create({
 })
 ```
 
-Let's step through the `defineTable()` parameters.
+Let's step through the `defineSchema()` parameters.
 
 |Key|Meaning|
 |-|-|
-|**id**|This identifies the table. It must be a string of the shape `{domain}/{table}`, eg `atek.cloud/account`. A single slash is required in the name (not zero or 2+). The domain name should be a domain which your project owns.|
-|**revision**|An integer indicating which revision of the table this is.|
-|**definition**|A JSON-Schema definition of the table.|
-|**templates.table.title**|A title for the table. Falls back to the schema's title.|
-|**templates.table.description**|A description for the table. Falls back to the schema's description.|
-|**templates.record.key**|The key that's generated for a record when `create()` is used. Falls back to an autokey.|
-|**templates.record.title**|A title for an individual record. Falls back to the raw data.|
-
-### Table ID
-
-The "id" is an important feature, as it identifies the semantics of a table globally. This is why they must have domain-name prefixes, so that applications can correctly identify each others' data. It must be a string of the shape `{domain}/{table}`.
-
-```
-example.com/post     - good
-atek.cloud/account   - good
-post                 - bad, no domain
-example.com/db/post  - bad, too many slashes
-```
-
-The table id is included in the URLs of record as well:
-
-```
-        db-key   table-id         record-key
-hyper://1234..af/example.com/post/2021-09-03T20:37:10.323Z
-```
-
-As a consequence, we can extract the DB key, table id, and record key from any ADB record's URL.
-
-### Table templates
-
-The "templates" are unusual but quite cool. A moustache-style syntax is available for the `record` templates as json-pointers into an individual record's data. The `record.key` template uses that to define how a record's key is generated.
-
-For example:
-
-```
-key: "{{/createdAt}}"
-```
-
-Specifies that we'll use the `createdAt` value as the key for a record.
-
-The title and description templates are used in UIs to give a user-friendly description of data. Here's how that is used in Atek's (alpha) frontend:
-
-![record-template](/img/manual/introduction-to-adb/record-template.png)
-
-That record title is generated by the `atek.cloud/service` template, which looks like this:
-
-```
-"Service \"{{/id}}\", source: {{/sourceUrl}}"
-```
-
-### Table versions
-
-Because Atek applications are not centrally-coordinated, the Atek DB tables must never have breaking changes. Let's say that again:
-
-:::warning
-Atek DB tables must never have breaking changes.
-:::
-
-If you need to implement breaking changes to your data model, you should create a new table under a new ID. This could include appending a version number, e.g. `example.com/cats.v2`.
-
-If you need to implement a non-breaking change to your table, you can do so by incrementing the `revision` number. This will tell Atek DB to update the table definitions in a database.
+|**id**|This sets the path under which keys will be stored and also acts as a kind of identifier for the schema. In the above example, all records would be stored under `/example.com/cats`.|
+|**pkey**|The key that's generated for a record when `create()` is used. Falls back to an autokey. The definition should be a string or array of strings, each of which is a json-pointer into the record value.|
+|**jsonSchema**|A JSON-Schema definition of the table.|
 
 ### Typescript interfaces
 
 In typescript, you can include an interface so that consumers have access to the correct types:
 
 ```typescript
-import { defineTable } from '@atek-cloud/adb-api`
+import { defineSchema } from '@atek-cloud/adb-api`
 
 interface CatRecord {
   id: string
@@ -206,8 +146,9 @@ interface CatRecord {
   createdAt: string
 }
 
-export default defineTable<CatRecord>('example.com/cats', {
-  schema: {
+export default defineSchema<CatRecord>('example.com/cats', {
+  pkey: '/id',
+  jsonSchema: {
     type: 'object',
     required: ['id', 'name']
     properties: {
@@ -215,25 +156,15 @@ export default defineTable<CatRecord>('example.com/cats', {
       name: {type: 'string'},
       createdAt: {type: 'string', format: 'date-time'}
     }
-  },
-  templates: {
-    table: {
-      title: 'Cats',
-      description: 'A table for tracking my cats'
-    },
-    record: {
-      key: '{{/id}}',
-      title: 'Kitty: {{/name}}'
-    }
   }
 })
 ```
 
 The table methods (get, create, list, etc) will use the `CatRecord` interface to describe the parameters and return values.
 
-### Publishing table schemas
+### Publishing schemas
 
-There is no automated process for downloading a schema from a table ID. The current recommendation is to publish your tables as NPM modules or similar. Then other developers can reuse your definitions by using your module.
+There is no automated process for downloading a schema. The current recommendation is to publish your tables as NPM modules or similar. Then other developers can reuse your definitions by using your module.
 
 ## ADB Databases
 
@@ -250,7 +181,11 @@ When a database is queried, the Hypercore daemon will check the local disk for t
 
 ### Permissions
 
-The permissions model for Hypercore is that a given database is only readable to people who know its public key. That key is kept secret on Hypercore's network, so it's up to the applications to decide how that key is shared.
+The permissions model for Hypercore is that a given database is only readable to people who know its public key. That key is kept secret on Hypercore's network, so it's up to the applications to decide how that key is shared. You can, however, turn off networking on a database via config if it should never leave the device:
+
+```js
+adb.db('mydb', {access: 'private'})
+```
 
 A Hypecore database is only writable if you possess the private key. Only one device can write to a database as conflicting writes will corrupt a DB.
 

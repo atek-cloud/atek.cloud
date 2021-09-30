@@ -2,7 +2,7 @@
 
 Repo: https://github.com/atek-cloud/adb-tables
 
-Atek core ADB tables
+Atek core ADB schemas
 
 ```
 npm install @atek-cloud/adb-tables

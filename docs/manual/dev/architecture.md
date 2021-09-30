@@ -62,7 +62,7 @@ The host environment executes user programs (service orchestration), routes mess
 
 Programs import and export APIs which are identified by a global ID (e.g. `example.com/my-api`) and various metadata. Messages are sent to the host environment where they are routed to their destinations by matching call metadata (the ID and other attributes) against registered services.
 
-The Atek DataBase (ADB) service uses global IDs, JSON schemas, and other metadata to describe tables. The table definitions help ensure correctness and interoperability between programs by enforcing strict conformance to the schemas on read and write.
+The Atek DataBase (ADB) service uses a conventional approach to global IDs, JSON schemas, and other metadata to describe tables. To ensure ease-of-use, no schemas or models are required, but a toolset for publishing and using schemas via NPM modules is made available.
 
 <sup>†</sup> <em>Both of these choices may evolve over time; for instance, the host environment could be rewritten in other languages for performance, and user programs will need to expand to include docker and/or wasm runtimes. Secure sandboxing is also required.</em>
 
@@ -134,7 +134,7 @@ Service execution is managed by the host environment. Programs are currently run
 
 Programs are passed a small set of environment variables and allowed access to two ports: the host environment's port and an assigned socketfile which the program must listen on.
 
-In the most restrictive sandboxing mode, no other access to the hosting device is permitted; all external access is accomplished through RPC calls to the host environment. More relaxed sandboxes will be required for wallets and protocol daemons, including more access to network ports and the local filesystem, but these should be the exception: for instance, applications should seek to store data in Atek DB or other similar data stores as these can be managed by Atek.
+In the ideal sandbox, access to the hosting device would be gated; all external access would be accomplished through RPC calls to the host environment. More relaxed sandboxes will be required for wallets and protocol daemons, including more access to network ports and the local filesystem, but these should be the exception: for instance, applications should seek to store data in Atek DB or other similar data stores as these can be managed by Atek.
 
 ### Service IDs and keys
 
@@ -212,21 +212,25 @@ The "hypercore" is a low-level log structure. Higher level data structures have 
 
 ### ADB service
 
-The "ADB" (Atek DataBase) service is a high-level document database designed to simplify application development. It uses URL-based IDs and JSON-Schemas to describe tables in a globally-interoperable manner.
+The "ADB" (Atek DataBase) service is a JSON-document database designed to simplify application development.
 
 ADB depends on the Hypercore service to store and replicate databases.
 
-<small>Discussions: <a href="https://github.com/atek-cloud/atek/discussions/2">#2</a>, <a href="https://github.com/atek-cloud/atek/discussions/6">#6</a></small>
+<small>Discussions: <a href="https://github.com/atek-cloud/atek/discussions/6">#6</a></small>
 
-#### ADB table-definition revisions and versioning
+#### ADB schemas
 
-ADB tables must never break backwards compatibility. This is because Atek applications are not centrally coordinated, and therefore cannot deploy global breaking changes.
+Atek DB does not provide any baked-in schema concept. Instead, it provides a key space with a folder-like concept of subkeys. This means records may be addressed at locations such as:
 
-If a breaking change is required, a new ADB table ID must be used. For example, if `example.com/my-api` requires a breaking change, then it should be named e.g. `example.com/my-api-v2`.
+```
+/profile
+/users/bob
+/atek.cloud/databases/1
+```
 
-Non-breaking changes are permitted. Every ADB table includes a `revision` integer which can be used to indicate such a change.
+As suggested by the last entry, the "key path" may be used to indicate the semantics of a record. This is a conventional approach which developers and users may choose to adopt, but which is used regularly in Atek's core software.
 
-While the "no breaking changes" requirement may seem onerous, there are some simple solutions available. ADB schemas are defined using JSON-Schema, which supports a `"oneOf"` construct to encode multiple different valid structures. This enables a schema to encode both the "old" and the "new" schemas as valid options.
+The Atek DB API includes tooling for applying JSON-Schema validation at the "client" side (within applications). This tooling is optional and includes multiple options for handling validation failures. To share these schemas, developers can publish them as NPM modules. This makes for a simple, hands-off, and intuitive approach for sharing data models between software.
 
 ## User programs
 
@@ -240,6 +244,7 @@ Applications must include an `atek.json` manifest file at the root of their sour
 - **description** A short description of what the application is/does.
 - **author** The author of the application.
 - **license** A short string describing how the application is licensed (e.g. "MIT").
+- **frame** A boolean identifying whether the application should run inside an iframe in the main application, or as its own application in a subdomain.
 - **exports** An array of exported API descriptions. Each entry is an object with the following properties:
   - **api** The ID of the API. This should be URL-like, e.g. `example.com/my-api`, and use a domain name owned by the creator of the API.
   - **path** The path of the HTTP endpoint where this API is exposed.
@@ -253,6 +258,7 @@ This manifest is likely to expand and change as Atek develops.
 The following environment variables are passed to the application process:
 
 - `ATEK_ASSIGNED_SOCKET_FILE`: The socket-file to which the application process' HTTP server should bind.
+- `ATEK_ASSIGNED_SERVICE_KEY`: The "key" under which the application is identified by Atek.
 - `ATEK_HOST_PORT`: The port of the host environment HTTP server, which provides the host APIs.
 - `ATEK_HOST_BEARER_TOKEN`: The "Bearer Auth" token which should be passed in the HTTP Authentication header in requests to the host.
 
