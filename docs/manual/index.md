@@ -32,7 +32,7 @@ Guide to RPC between Atek applications.
 
 ### [Using Atek DB](./adb/intro)
 
-Guide to Atek's native atabase, Atek DB.
+Guide to Atek's native database, Atek DB.
 
 ### [Example apps](./example-apps)
 
