@@ -71,9 +71,9 @@ Atek also tries to minimize novel ideas so that developers can easily get starte
 
 ### Learning from Beaker browser
 
-[Beaker browser](https://beakerbrowser.com) was a p2p Web browser which I started. It was a cool idea: it used [Hypercore](https://hypercore-protocol.org) as a drop-in replacement for HTTP. Brave and Opera are experimenting with this now with [IPFS](https://ipfs.io). Peer-to-peer sites are an engaging premise for where the Web could go.
+[Beaker browser](https://beakerbrowser.com) is a p2p Web browser which I started. It was a cool idea: it used [Hypercore](https://hypercore-protocol.org) as a drop-in replacement for HTTP. Brave and Opera are experimenting with this now with [IPFS](https://ipfs.io). Peer-to-peer sites are an engaging premise for where the Web could go.
 
-The challenge was that Beaker apps had no backend. If you want to build 100% client-side SPAs, you need something akin to a Firebase: a toolkit of databases, users/identity, and networking. We took a lot of shots at building that, but struggled to create APIs which matched the browser's security and page-based runtime model. Having to create a single monolithic stack for everybody to use is difficult, and ran against many people's expectations of what a browser is and is supposed to do. A home cloud is a more natural fit for this.
+The challenge was that Beaker apps have no backend. If you want to build 100% client-side SPAs, you need something akin to a Firebase: a toolkit of databases, users/identity, and networking. We took a lot of shots at building that, but struggled to create APIs which matched the browser's security and page-based runtime model. Having to create a single monolithic stack for everybody to use is difficult, and ran against many people's expectations of what a browser is and is supposed to do. A home cloud is a more natural fit for this.
 
 The next challenge was resource constraints. Beaker was originally meant to accept any-and-all web3 tech as a plugin, but many of these protocols require a sizable CPU, RAM, and disk budget, and the client-side applications added more overhead onto that. Consequently, I've come to believe it's better to use dedicated devices (home/personal clouds) for web3 apps and have the user devices connect to those devices in a client/server model. This is the basic model I've adopted for Atek.
 
