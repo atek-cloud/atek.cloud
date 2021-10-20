@@ -7,7 +7,7 @@ author_title: Atek Core Team
 author_url: https://twitter.com/pfrazee
 author_image_url: https://avatars.githubusercontent.com/u/1270099?v=4
 image: "/img/blog/weekly-update-card.png"
-tags: [announcements]
+tags: [weekly-update]
 ---
 
 We're still heads down on work today, so instead of a release overview I'm going to talk about the work in-progress with Atek DB.
