@@ -25,7 +25,7 @@ Once setup is finished, you can access Atek at [localhost](http://localhost).
 open http://localhost
 ```
 
-Atek will run on port 80 by default. You can change the port by [editing your config file](/docs/reference/config) or passing the [-p flag](/docs/reference/cli).
+Atek will run on port 80 by default. You can change the port by [editing your config file](/docs/reference/config) or passing the [--port flag](/docs/reference/cli).
 
 :::info Permissions Error
 If you get a permissions error around accessing port 80, run the following command:
